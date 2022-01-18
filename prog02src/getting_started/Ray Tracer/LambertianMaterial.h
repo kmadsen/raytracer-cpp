@@ -1,8 +1,8 @@
 #ifndef LambertianMaterial_h
 #define LambertianMaterial_h
 
-#include "Material.h";
-#include "Color.h";
+#include "Material.h"
+#include "Color.h"
 
 class LambertianMaterial : public Material
 {

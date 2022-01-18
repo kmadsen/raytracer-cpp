@@ -24,4 +24,4 @@ protected:
 	Primitive& operator=(const Primitive&);
 };
 
-#endif Primitive_h
+#endif // Primitive_h
