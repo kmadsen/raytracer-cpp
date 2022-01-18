@@ -151,6 +151,7 @@ Bounds recalculateBounds(Object* obj)
 		Bounds newBounds, b;
 		newBounds.max = Point(-HUGE_VAL);
 		newBounds.min = Point(HUGE_VAL);
+		
 		for each (Object* groupObj in asGroup->getObjects()) {
 			Bounds temp = recalculateBounds(groupObj);
 			newBounds.min = b.less(newBounds.min, temp.min) ? newBounds.min : temp.min;
