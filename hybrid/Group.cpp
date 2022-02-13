@@ -18,12 +18,12 @@ void Group::preprocess(const RenderContext& context)
 	int numObjects = objects.size();
 	objectsAsArray = new Object*[numObjects];
 	int i = 0;
-	for each (Object* o in objects) {
-		o->preprocess(context);
-		setMin(o->getMin());
-		setMax(o->getMax());
+	for (auto obj = objects.begin(); obj != objects.end(); ++obj) {
+		(*obj)->preprocess(context);
+		setMin((*obj)->getMin());
+		setMax((*obj)->getMax());
 
-		objectsAsArray[i++] = o;
+		objectsAsArray[i++] = *obj;
 	}
 }
 
@@ -43,6 +43,7 @@ void Group::rasterize(const Vector &lookdir) const
 
 void Group::intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const
 {
-	for each (Object* o in objects)
-		o->intersect(hit, context, ray);
+	for (auto obj = objects.begin(); obj != objects.end(); ++obj) {
+		(*obj)->intersect(hit, context, ray);
+	}
 }

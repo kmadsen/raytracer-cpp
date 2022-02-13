@@ -57,7 +57,8 @@ void LambertianMaterial::shade(Color& result, const RenderContext& context, cons
 		Vector lightDir;
 		double dist = lights[i]->getLight(lightColor, lightDir, context, hitpos);
 
-		bool isInShadow = scene->traceShadowRay(context, Ray(hitpos, lightDir), HitRecord(dist));
+		auto hitRecord = HitRecord(dist);
+		bool isInShadow = scene->traceShadowRay(context, Ray(hitpos, lightDir), hitRecord);
 		double cosphi = normal.dot(lightDir);
 		if(!isInShadow && cosphi > 0)
 		{
