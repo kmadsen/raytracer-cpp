@@ -1,9 +1,31 @@
-# Setup
+## About
 
-I had opengl setup on my machine. But here is a simple command line for this.
+Setting up an old ray-tracer project to work that I built in college.
 
-``` sh
-$ g++ hello.cpp -lGL -lGLU -lGLEW -lglut -o hello
+Final project - hybrid with opengl.
+
+## Building
+
+``` bash
+$ cd project04
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
 ```
 
-I'm considering adding a view for some things I'm programming. So maybe this will come in handy. Also added a make file just to make it easier.
+## Running
+
+``` bash
+$ cd project04
+$ ./build/bin/ray-tracing prog04.scn
+$ eog image.ppm
+```
+
+## Output
+
+<div class="card">
+  <div class="card-image">
+    <img src="image.png">
+  </div>
+</div>
