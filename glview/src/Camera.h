@@ -35,4 +35,3 @@ protected:
 };
 
 #endif // Camera_h
-
