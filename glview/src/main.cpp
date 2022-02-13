@@ -449,7 +449,7 @@ int main( int argc, char** argv )
 	  scene = parser.parseScene(filename);
 	end = (double)clock();
 	dif = (end - start)/ CLOCKS_PER_SEC;
-	printf ("Parsing time: %f seconds\n", dif);
+	cout << "Parsing time: " << dif << " seconds\n";
 
 	width = scene->getImage()->getXresolution();
 	height = scene->getImage()->getYresolution();
