@@ -28,4 +28,4 @@ private:
 	double scale;
 };
 
-#endif OrthographicCamera_h
+#endif // OrthographicCamera_h

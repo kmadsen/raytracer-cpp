@@ -52,9 +52,9 @@ void Scene::preprocess()
 	RenderContext context(this);
 	objects->preprocess(context);
 	camera->preprocess(RenderContext(this));
-	for each(Light* light in lights) {
-		light->preprocess(context);
-		lightsAsArray[i++] = light;
+	for (auto light = lights.begin(); light != lights.end(); ++light) {
+		(*light)->preprocess(context);
+		lightsAsArray[i++] = (*light);
 	}
 
 	stencils = new int[image->getXresolution() * image->getYresolution()];

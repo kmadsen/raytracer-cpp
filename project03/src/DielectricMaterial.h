@@ -1,8 +1,8 @@
 #ifndef DielectricMaterial_h
 #define DielectricMaterial_h
 
-#include "Material.h";
-#include "Color.h";
+#include "Material.h"
+#include "Color.h"
 #include <math.h>
 #include <vector>
 
