@@ -31,6 +31,7 @@ add_subdirectory(raymath)
 file(GLOB SOURCES src/*.cpp)
 add_executable(ray-tracing ${SOURCES})
 
+# Add the include paths fo rthe subdirectory
 target_include_directories(
   ${PROJECT_NAME} PUBLIC
   "${PROJECT_SOURCE_DIR}/raymath/include"
@@ -40,5 +41,4 @@ target_include_directories(
 target_link_libraries(${PROJECT_NAME}
   glut OpenGL::GL
   glut OpenGL::GLU
-  ${PROJECT_SOURCE_DIR}/raymath
 )
