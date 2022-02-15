@@ -22,9 +22,7 @@ class Vector {
     return x != a.x || y != a.y || z != a.z;
   }
 
-  inline Vector operator-() const {
-		return Vector(-x, -y, -z);
-	}
+  inline Vector operator-() const { return Vector(-x, -y, -z); }
 
   inline Vector operator+(const Vector &a) const {
     return Vector(x + a.x, y + a.y, z + a.z);
