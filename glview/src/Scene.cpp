@@ -12,7 +12,6 @@
 #include "Group.h"
 #include <float.h>
 
-
 #include <iomanip>
 #include <iostream>
 #include <fstream>

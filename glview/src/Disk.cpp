@@ -42,7 +42,7 @@ void Disk::rasterize(const Vector &lookdir) const
 	Vector rotAxis = zAxis.cross(norm);
 	rotAxis.normalize();
 	double rotAngle = acos(norm.dot(zAxis));
-	rotAngle = rotAngle * 180 / PI;
+	rotAngle = rotAngle * 180.0 / PI;
 	
 	glTranslatef(center.x, center.y, center.z);
 	glRotatef(rotAngle, rotAxis.x, rotAxis.y, rotAxis.z);
