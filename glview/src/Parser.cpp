@@ -824,18 +824,15 @@ Object *Parser::parseObject()
     return 0;
 }
 
-Parser::Parser(
-  istream &input )
-  : input( input ),
-    line_number( 1 ),
-    column_number( 0 ),
-    default_material( new LambertianMaterial( Color( 1.0, 1.0, 1.0 ), 0.6, 0.3 ) )
-{
+Parser::Parser(istream &input)
+    : input(input),
+      line_number(1),
+      column_number(0),
+      default_material(new LambertianMaterial(Color(1.0, 1.0, 1.0), 0.6, 0.3)) {
   readNextToken();
 }
 
-Scene *Parser::parseScene(
-  string &filename )
+Scene *Parser::parseScene(string &filename)
 {
   filename = "image.ppm";
   int xres = 512;

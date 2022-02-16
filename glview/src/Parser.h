@@ -94,11 +94,9 @@ class Parser {
 
   public:
 
-  Parser(
-    std::istream &input );
+  Parser(std::istream &input);
 
-  Scene *parseScene(
-    std::string &filename );
+  Scene *parseScene(std::string &filename);
 
 };
 
