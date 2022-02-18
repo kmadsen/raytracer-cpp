@@ -1,7 +1,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "RayTracerOpenGL.h"
+#include "RayTracerGlfw.h"
+#include "RayTracerGlut.h"
 #include "RayTracerImage.h"
 
 using namespace std;
@@ -32,14 +33,18 @@ int main(int argc, char** argv) {
 			auto rayTracerImage = RayTracerImage();
 			rayTracerImage.start(argc, argv);
       return 0;
+    } else if (argv[2] == std::string("glut")) {
+      auto rayTracerGlut = RayTracerGlut();
+      rayTracerGlut.start(argc, argv);
+      return 0;
     } else {
       cout << "unrecognized command: " << argv[2] << "\n";
       cout << "  try \"instant\" or do not pass a second argument\n";
     }
   }
 
-  auto rayTracerOpenGL = RayTracerOpenGL();
-  rayTracerOpenGL.start(argc, argv);
+  auto rayTracerGlew = RayTracerGlfw();
+  rayTracerGlew.start(argc, argv);
 
   return 0;
 }
