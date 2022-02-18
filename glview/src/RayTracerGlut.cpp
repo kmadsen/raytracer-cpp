@@ -6,7 +6,7 @@
  * classes to make Ray Tracing easier.
  *
  */
-#include "RayTracerOpenGL.h"
+#include "RayTracerGlut.h"
 #include "Parser.h"
 #include "Scene.h"
 #include "Image.h"
@@ -60,7 +60,7 @@ void display() {
   sceneGlut->display();
 }
 
-void RayTracerOpenGL::start(int argc, char** argv) {
+void RayTracerGlut::start(int argc, char** argv) {
   std::ifstream sceneFile(argv[1]);
 
   // parse the scene file

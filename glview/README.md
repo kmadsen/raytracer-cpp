@@ -22,6 +22,13 @@ $ ./build/bin/ray-tracing prog04.scn
 $ eog image.ppm
 ```
 
+## Linting
+
+```
+$ pip install cpplint
+$ cpplint --recursive .
+```
+
 ## Output
 
 <div class="card">

@@ -1,5 +1,3 @@
-#ifndef RayTracerOpenGL_h
-#define RayTracerOpenGL_h
 
 #include "RayTracerImage.h"
 #include "Scene.h"
@@ -36,5 +34,3 @@ void RayTracerImage::start(int argc, char** argv) {
 
 	cout << "finished instant run: xdg-open " << filename << "\n";
 };
-
-#endif // RayTracerOpenGL_h
