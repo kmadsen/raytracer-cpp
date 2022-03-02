@@ -21,11 +21,16 @@ include_directories(
   ${GLFW_INCLUDE_DIRS}
 )
 
+set(TINYGLTF_HEADER_ONLY ON CACHE INTERNAL "" FORCE)
+set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
+add_subdirectory(../tinygltf build)
+
 # Link private libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
   ${OPENGL_gl_LIBRARY}
   glfw ${GLFW_LIBRARIES}
   GLEW ${GLEW_LIBRARIES}
+  tinygltf
 )
 
 # Use GoogleTest

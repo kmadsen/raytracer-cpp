@@ -48,6 +48,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   ${OPENGL_gl_LIBRARY}
   glfw ${GLFW_LIBRARIES}
   GLEW ${GLEW_LIBRARIES}
-  raster
   raymath
+  raster
 )
