@@ -6,8 +6,8 @@ class Color;
 class Background
 {
 public:
-	Background(void);
-	virtual ~Background(void);
+	Background(void) { }
+	virtual ~Background(void) { }
 
 	virtual Color getBackground() const = 0;
 };
