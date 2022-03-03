@@ -1,11 +1,26 @@
 #include <fstream>
 #include <iostream>
+#include <signal.h>
+#include <execinfo.h>
 
 #include "RayTracerGlfw.h"
 #include "RayTracerGlut.h"
 #include "RayTracerImage.h"
 
 using namespace std;
+
+void handler(int sig) {
+  void *array[10];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+  size = backtrace(array, 10);
+
+  // print out all the frames to stderr
+  fprintf(stderr, "Error: signal %d:\n", sig);
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  exit(1);
+}
 
 /**
  * @brief The entry point for the raytracer.
@@ -17,6 +32,8 @@ using namespace std;
  * @return int 0 .
  */
 int main(int argc, char** argv) {
+  signal(SIGSEGV, handler);
+
   if (argc < 2) {
     cerr << "You need to give the program a scene" << endl;
     exit(1);

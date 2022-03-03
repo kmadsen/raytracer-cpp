@@ -1,10 +1,11 @@
 
 #include "Vector.h"
 
-#ifndef Point_h
-#define Point_h
+#ifndef POINT_H_
+#define POINT_H_
 
 #include <math.h>
+#include <algorithm>
 
 class Point {
  public:
@@ -12,7 +13,7 @@ class Point {
 
   Point() : x(0.0), y(0.0), z(0.0) {}
 
-  Point(const double& value) : x(value), y(value), z(value) {}
+  explicit Point(const double& value) : x(value), y(value), z(value) {}
 
   inline Point(const Point& copy) {
     x = copy.x;
@@ -58,18 +59,18 @@ class Point {
   inline Vector asVector() const { return Vector(x, y, z); }
 
   inline static Point min(const Point& p0, const Point& p1) {
-    double x = p0.x < p1.x ? p0.x : p1.x;
-    double y = p0.y < p1.y ? p0.y : p1.y;
-    double z = p0.z < p1.z ? p0.z : p1.z;
+    double x = std::min(p0.x, p1.x);
+    double y = std::min(p0.y, p1.y);
+    double z = std::min(p0.z, p1.z);
     return Point(x, y, z);
   }
 
   inline static Point max(const Point& p0, const Point& p1) {
-    double x = p0.x > p1.x ? p0.x : p1.x;
-    double y = p0.y > p1.y ? p0.y : p1.y;
-    double z = p0.z > p1.z ? p0.z : p1.z;
+    double x = std::max(p0.x, p1.x);
+    double y = std::max(p0.y, p1.y);
+    double z = std::max(p0.z, p1.z);
     return Point(x, y, z);
   }
 };
 
-#endif  // Point
+#endif  // POINT_H_

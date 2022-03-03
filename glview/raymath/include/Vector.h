@@ -1,5 +1,5 @@
-#ifndef Vector_h
-#define Vector_h
+#ifndef VECTOR_H_
+#define VECTOR_H_
 
 #include <math.h>
 
@@ -113,7 +113,7 @@ class Vector {
   }
 
   inline double dot(const Vector &a) const {
-    return double(x * a.x + y * a.y + z * a.z);
+    return static_cast<double>(x * a.x + y * a.y + z * a.z);
   }
 
   inline Vector cross(const Vector &v1) const {
@@ -135,4 +135,4 @@ class Vector {
   }
 };
 
-#endif  // Vector_h
+#endif  // VECTOR_H_

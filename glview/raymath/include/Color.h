@@ -1,6 +1,6 @@
 
-#ifndef Color_h
-#define Color_h
+#ifndef COLOR_H_
+#define COLOR_H_
 
 #include <math.h>
 
@@ -90,7 +90,7 @@ class Color {
   inline Color operator/(float s) const {
     return Color(_r / s, _g / s, _b / s);
   }
-	
+
   inline Color& operator/=(float s) {
     _r /= s;
     _g /= s;
@@ -109,4 +109,4 @@ class Color {
   float _r, _g, _b;
 };
 
-#endif
+#endif  // COLOR_H_

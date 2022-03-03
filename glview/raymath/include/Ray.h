@@ -1,5 +1,5 @@
-#ifndef Ray_h
-#define Ray_h
+#ifndef RAY_H_
+#define RAY_H_
 
 #include "Point.h"
 #include "Vector.h"
@@ -26,4 +26,4 @@ class Ray {
   int sign[3];
 };
 
-#endif  // Ray_h
+#endif  // RAY_H_

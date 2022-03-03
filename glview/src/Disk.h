@@ -11,13 +11,8 @@
 class Disk : public Primitive
 {
 public:
-	Disk(Material* _material, const Point& _center, const Vector& _norm, const double& _radius)
-		: center(_center), norm(_norm), radius(_radius)
-	{
-		setMaterial(_material);
-		norm.normalize(); // TODO put in preprocess
-	}
-	virtual ~Disk(void);
+	Disk(Material* _material, const Point& _center, const Vector& _norm, const double& _radius);
+	virtual ~Disk(void) {}
 
 	void preprocess(const RenderContext& context);
 	void intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const;
@@ -27,7 +22,9 @@ public:
 private:
 	Point center;
 	Vector norm;
+	double d;
 	double radius;
+	double radiusSquared;
 };
 
 #endif // Disk_h

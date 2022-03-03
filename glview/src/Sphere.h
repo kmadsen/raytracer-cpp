@@ -18,10 +18,8 @@ class Sphere : public Primitive
 {
 public:
 	Sphere(Material* _material, const Point& _center, const double& _radius)
-		: center(_center), radius(_radius)
-	{
-		setMaterial(_material);
-	}
+		: Primitive(_material), center(_center), radius(_radius)
+	{}
 
 	virtual ~Sphere(void);
 
