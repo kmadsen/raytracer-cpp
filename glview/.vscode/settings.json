@@ -64,6 +64,9 @@
     "thread": "cpp",
     "cfenv": "cpp",
     "cinttypes": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "codecvt": "cpp",
+    "forward_list": "cpp",
+    "valarray": "cpp"
   },
 }

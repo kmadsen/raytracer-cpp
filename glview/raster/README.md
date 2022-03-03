@@ -10,7 +10,7 @@ This library includes cpplint within CMakeLists.txt. It would be good to enable 
 
 Install and run with python
 ```
-$ pip isntall cpplint
+$ pip install cpplint
 $ cpplint --recursive --root=include .
 ```
 

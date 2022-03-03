@@ -1,30 +1,27 @@
 #include "Ring.h"
-#include "Constants.h"
+
+#include "Intersect.h"
 
 Ring::~Ring(void) {}
 
 void Ring::preprocess(const RenderContext& context) {
   Primitive::preprocess(context);
+  norm.normalize();
+  d = norm.dot(center.asVector());
+  radiusInnerSquared = radiusInner * radiusInner;
+  radiusOuterSquared = radiusOuter * radiusOuter;
 }
 
 double dot(const Vector& lhs, const Point& rhs) {
-    return double(lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z);
+  return double(lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z);
 }
 
 void Ring::intersect(HitRecord& hit, const RenderContext& context,
                      const Ray& ray) const {
-  // TODO make less Vector Point conversions.
-
-  double product = norm.dot(ray.dir);
-  if (abs(product) > EPSILON) {
-    double d = dot(norm, center);
-    double t = (d - dot(norm, ray.pos)) / product;
-
-    Point p = ray.pos + ray.dir * t;
-    Vector dist = p - center;
-    if (dist.length() <= (radiusOuter) && dist.length() >= (radiusInner)) {
-      hit.hit(t, this, material);
-    }
+  double t;
+  if (Intersect::ring(ray, norm, center, d, radiusInnerSquared,
+                      radiusOuterSquared, t)) {
+    hit.hit(t, this, material);
   }
 }
 

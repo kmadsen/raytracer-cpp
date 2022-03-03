@@ -5,25 +5,25 @@
 
 class Material;
 
-class Primitive : public Object
-{
-public:
-	Primitive(void);
-	~Primitive(void);
+class Primitive : public Object {
+ public:
+  Primitive(Material* _material) : material(_material) {}
+  ~Primitive(void) {}
 
-	virtual void preprocess(const RenderContext& context);
-	virtual void intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const;
-	virtual void normal(Vector& normal, const RenderContext&, const Point& hitpos,
-		const Ray& ray, const HitRecord& hit) const = 0;
-	
-	void setOpenGLMaterial() const;
+  virtual void preprocess(const RenderContext& context);
+  virtual void intersect(HitRecord& hit, const RenderContext& context,
+                         const Ray& ray) const;
+  virtual void normal(Vector& normal, const RenderContext&, const Point& hitpos,
+                      const Ray& ray, const HitRecord& hit) const = 0;
 
-	Material* getMaterial() { return material; }
-	void setMaterial(Material* _material) { material = _material; } 
-protected:
-	Material* material;
-	Primitive(const Primitive&);
-	Primitive& operator=(const Primitive&);
+  void setOpenGLMaterial() const;
+
+  Material* getMaterial() { return material; }
+
+ protected:
+  Material* material;
+  Primitive(const Primitive&);
+  Primitive& operator=(const Primitive&);
 };
 
-#endif // Primitive_h
+#endif  // Primitive_h

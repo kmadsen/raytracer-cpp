@@ -7,6 +7,10 @@ Triangle::~Triangle(void)
 void Triangle::preprocess(const RenderContext& context)
 {
 	Primitive::preprocess(context);
+		v0 = p0 - p2;
+		v1 = p1 - p2;
+		norm = v0.cross(v1);
+		norm.normalize();
 }
 
 void Triangle::setBounds()
