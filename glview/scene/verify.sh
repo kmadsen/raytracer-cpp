@@ -8,7 +8,7 @@ for f in $FILES;
 do
   if [[ $f == *.scn ]]
   then
-    ./bin/ray-tracing $f instant
+    { time ./bin/ray-tracing $f instant ; } 2> ${f%.scn}.txt
   fi
 done
 echo finished
