@@ -11,6 +11,36 @@ class Intersect {
   Intersect() {}
   virtual ~Intersect() {}
 
+  static bool triangle(
+    const Ray& ray,
+    const Point& p0, const Vector& v0, const Vector& v1,
+    double& t
+  ) {
+    Vector u = ray.dir.cross(v1);
+    double a = v0.dot(u);
+
+    if (abs(a) < SEPS) {
+      return false;
+    }
+
+    double b = 1.0 / a;
+    Vector v = ray.pos - p0;
+    double c = b * (v.dot(u));
+
+    if (c < 0.0 || c > 1.0) {
+      return false;
+    }
+
+    Vector w = v.cross(v0);
+    double d = b * ray.dir.dot(w);
+    if (d < 0.0 || c + d > 1.0) {
+      return false;
+    }
+
+    t = b * v1.dot(w);
+    return true;
+  }
+
   static bool plane(
     const Ray& ray,
     const Vector& normal,
