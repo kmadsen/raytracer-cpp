@@ -53,15 +53,15 @@ GLuint Shader::compileSource(const char* source, const GLuint& shaderType) {
 bool Shader::check(const GLuint& shader) {
   GLint result;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
-  if (GL_FALSE == result) {
+  if (GL_TRUE != result) {
     GLint logLen = 0;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLen);
     if (logLen > 0) {
-      char* log = reinterpret_cast<char*>(malloc(logLen));
+      char* log = new char[logLen];
       GLsizei written;
       glGetShaderInfoLog(shader, logLen, &written, log);
       fprintf(stderr, "Shader error log:\n%s\n", log);
-      free(log);
+      delete[] log;
     }
     return false;
   }
@@ -92,7 +92,7 @@ void Shader::printAttributes(GLuint programHandle) {
   glGetProgramiv(programHandle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
   glGetProgramiv(programHandle, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
 
-  GLchar* name = reinterpret_cast<GLchar*>(malloc(maxLength));
+  GLchar* name = new GLchar[maxLength];
 
   GLint written, size, location;
   GLenum type;
@@ -105,7 +105,7 @@ void Shader::printAttributes(GLuint programHandle) {
     printf(" %-5d | %s\n", location, name);
   }
 
-  free(name);
+  delete[] name;
 }
 
 void Shader::printActiveUniformVars(GLuint programHandle) {
@@ -113,7 +113,7 @@ void Shader::printActiveUniformVars(GLuint programHandle) {
   glGetProgramiv(programHandle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLength);
   glGetProgramiv(programHandle, GL_ACTIVE_UNIFORMS, &nUniforms);
 
-  GLchar* name = reinterpret_cast<GLchar*>(malloc(maxLength));
+  GLchar* name = new GLchar[maxLength];
 
   GLint size, location;
   GLsizei written;
@@ -127,5 +127,5 @@ void Shader::printActiveUniformVars(GLuint programHandle) {
     printf(" %-8d | %s\n", location, name);
   }
 
-  free(name);
+  delete[] name;
 }

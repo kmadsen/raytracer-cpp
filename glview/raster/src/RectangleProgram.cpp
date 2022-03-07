@@ -1,34 +1,40 @@
-#include "TriangleProgram.h"
+#include "RectangleProgram.h"
 #include "Shader.h"
 
 #include <GLFW/glfw3.h>
+#include <stdio.h>
 
-TriangleProgram::TriangleProgram() {
-  /*
-  * geometry to use. these are 3 xyz points (9 floats total) to make a triangle
-  */
+RectangleProgram::RectangleProgram() {
   GLfloat vertices[] = {
-    0.0f, 0.5f, 0.1f,
-    0.5f, -0.5f, 0.1f,
-    -0.5f, -0.5f, 0.1f
+    -0.9f,  0.3f, 0.0f,  // top left
+     0.9f,  0.3f, 0.0f,  // top right
+     0.9f, -0.9f, 0.0f,  // bottom right
+
+     0.9f, -0.9f, 0.0f,  // bottom right
+    -0.9f, -0.9f, 0.0f,  // bottom left
+    -0.9f,  0.3f, 0.0f   // top left
   };
   GLfloat colors[] = {
-    1.0f, 0.0f, 0.0f, 1.f,
-    0.0f, 1.0f, 0.0f, 1.f,
-    0.0f, 0.0f, 1.0f, 1.f
+    1.0f, 0.0f, 0.0f, 0.5,  // top left
+    0.0f, 1.0f, 0.0f, 0.5,  // top right
+    0.0f, 0.0f, 1.0f, 0.5,  // bottom right
+
+    0.0f, 0.0f, 1.0f, 0.5,  // bottom right
+    0.0f, 1.0f, 1.0f, 0.5,  // bottom left
+    1.0f, 0.0f, 0.0f, 0.5   // top left
   };
 
   // Vertex buffer object (VBO). Generate buffers handle's to pass point and
   // color data to the vertex shader.
   glGenBuffers(2, vboHandles);
-  GLuint verticesHandle = vboHandles[0];
+  GLuint pointsHandle = vboHandles[0];
   GLuint colorsHandle = vboHandles[1];
 
   // Bind the points and colors to the handles.
-  glBindBuffer(GL_ARRAY_BUFFER, verticesHandle);
-  glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, pointsHandle);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, colorsHandle);
-  glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), colors, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
   /*
   * Vertex array object (VAO) is a little descriptor that defines which
@@ -42,7 +48,7 @@ TriangleProgram::TriangleProgram() {
   glEnableVertexAttribArray(0);  // Vertex points
   glEnableVertexAttribArray(1);  // Vertex colors
 
-  glBindBuffer(GL_ARRAY_BUFFER, verticesHandle);
+  glBindBuffer(GL_ARRAY_BUFFER, pointsHandle);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
   glBindBuffer(GL_ARRAY_BUFFER, colorsHandle);
@@ -54,7 +60,7 @@ TriangleProgram::TriangleProgram() {
   * the vertex shader positions each vertex point
   */
   static const char* vert_source = R"(
-    #version 410
+    #version 460
 
     layout (location=0) in vec3 vertexPosition;
     layout (location=1) in vec4 vertexColor;
@@ -71,38 +77,36 @@ TriangleProgram::TriangleProgram() {
   * The fragment shader colours each fragment (pixel-sized area of the triangle)
   */
   const char* frag_source = R"(
-    #version 410
+    #version 460
 
     layout (location=0) in vec4 vColor;
     layout (location=0) out vec4 fragmentColor;
 
     void main () {
-      fragmentColor = vec4(vColor.rgb, 1.0);
+      fragmentColor = vec4(vColor);
     }
   )";
 
-  vertShader = Shader::compileSource(vert_source, GL_VERTEX_SHADER);
-  fragShader = Shader::compileSource(frag_source, GL_FRAGMENT_SHADER);
-
   /* Link the shaders to a program */
   program = glCreateProgram();
+  vertShader = Shader::compileSource(vert_source, GL_VERTEX_SHADER);
+  fragShader = Shader::compileSource(frag_source, GL_FRAGMENT_SHADER);
   glAttachShader(program, vertShader);
   glAttachShader(program, fragShader);
   glLinkProgram(program);
 }
 
-TriangleProgram::~TriangleProgram() {
+RectangleProgram::~RectangleProgram() {
   glDeleteProgram(program);
   glDeleteShader(vertShader);
   glDeleteShader(fragShader);
   glDeleteBuffers(2, &vboHandles[0]);
   glDeleteVertexArrays(1, &vaoHandle);
+  glDeleteFramebuffers(1, &frameBuffer);
 }
 
-void TriangleProgram::draw() {
+void RectangleProgram::draw() {
   glUseProgram(program);
   glBindVertexArray(vaoHandle);
-  /* draw points 0-3 from the currently bound VAO with current in-use shader
-  */
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
 }
