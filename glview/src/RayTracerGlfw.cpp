@@ -5,7 +5,6 @@
 #include "Image.h"
 
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <time.h>
 #include <fstream>
 #include <iomanip>
@@ -15,13 +14,13 @@
 
 #define USING_OPENGL
 
-using namespace std;
+using std::string;
 
 void RayTracerGlfw::start(int argc, char** argv) {
   std::ifstream sceneFile(argv[1]);
 
   // parse the scene file
-  std::string filename = argv[1];
+  string filename = argv[1];
   Parser parser(sceneFile);
   auto scene = parser.parseScene(filename);
 

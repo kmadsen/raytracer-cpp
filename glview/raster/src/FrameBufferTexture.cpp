@@ -1,6 +1,6 @@
 #include "FrameBufferTexture.h"
 
-#include <GLFW/glfw3.h>
+#include <GL/glew.h>
 #include <stdio.h>
 
 FrameBufferTexture::FrameBufferTexture(int width, int height) {

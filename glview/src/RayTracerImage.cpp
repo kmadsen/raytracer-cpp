@@ -10,7 +10,11 @@
 #include <fstream>
 #include <regex>
 
-using namespace std;
+using std::string;
+using std::ifstream;
+using std::smatch;
+using std::regex;
+using std::cout;
 
 void RayTracerImage::start(int argc, char** argv) {
 	// Create a scene from the file input

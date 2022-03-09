@@ -26,7 +26,13 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
-using namespace std;
+
+using std::cerr;
+using std::endl;
+using std::string;
+using std::map;
+using std::istream;
+using std::pair;
 
 void Parser::throwParseException(
     string const &message ) const

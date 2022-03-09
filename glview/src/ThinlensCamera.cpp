@@ -6,8 +6,6 @@
 #include <cstdlib>
 #include <ctime> 
 
-using namespace std;
-
 ThinlensCamera::ThinlensCamera(const Point& _eye, const Point& _lookat, const Vector& _up, const double& _hfov, const double& _lensradius, const double& _focus)
 : fieldOfView(_hfov), lensRadius(_lensradius), focus(_focus) 
 {

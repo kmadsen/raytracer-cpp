@@ -24,7 +24,7 @@
 
 #define USING_OPENGL
 
-using namespace std;
+using std::cout;
 
 void normalize(float v[3]) {
   float l = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];

@@ -1,7 +1,7 @@
 #include "RectangleProgram.h"
 #include "Shader.h"
 
-#include <GLFW/glfw3.h>
+#include <GL/glew.h>
 #include <stdio.h>
 
 RectangleProgram::RectangleProgram() {

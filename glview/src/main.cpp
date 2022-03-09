@@ -7,7 +7,11 @@
 #include "RayTracerGlut.h"
 #include "RayTracerImage.h"
 
-using namespace std;
+using std::fprintf;
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::ifstream;
 
 void handler(int sig) {
   void *array[10];
@@ -55,8 +59,8 @@ int main(int argc, char** argv) {
       rayTracerGlut.start(argc, argv);
       return 0;
     } else {
-      cout << "unrecognized command: " << argv[2] << "\n";
-      cout << "  try \"instant\" or do not pass a second argument\n";
+      cout << "unrecognized command: " << argv[2] << "\n"
+        << "  try \"instant\" or do not pass a second argument\n";
     }
   }
 

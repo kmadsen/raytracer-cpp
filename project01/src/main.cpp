@@ -15,7 +15,11 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
-using namespace std;
+
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::string;
 
 int main( int argc, char** argv )
 {
@@ -31,7 +35,7 @@ int main( int argc, char** argv )
 	}
 
 	// Create a scene from the file input
-	std::string filename = argv[1];
+	string filename = argv[1];
 	Parser parser(sceneFile);
 	Scene* scene = parser.parseScene(filename);
 

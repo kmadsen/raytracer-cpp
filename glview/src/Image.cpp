@@ -2,7 +2,10 @@
 #include "Image.h"
 #include <fstream>
 #include <iostream>
-using namespace std;
+
+using std::cerr;
+using std::ifstream;
+using std::ios;
 
 static void error(const std::string& filename, const std::string& errtext)
 {
