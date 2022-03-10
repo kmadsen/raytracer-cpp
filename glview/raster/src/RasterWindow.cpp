@@ -5,10 +5,14 @@
 
 #include <iostream>
 
+#include "FpsConsoleLog.h"
 #include "FrameBufferTexture.h"
 #include "RectangleProgram.h"
 #include "ScreenProgram.h"
 #include "TriangleProgram.h"
+
+using std::cout;
+using std::endl;
 
 RasterWindow::~RasterWindow() { delete frameBufferTexture; }
 
@@ -73,6 +77,7 @@ void RasterWindow::start(int argc, char** argv) {
      * being drawn' surface. hence the 'swap' idea. in a single-buffering system
      * we would see stuff being drawn one-after-the-other
      */
+    auto fpsLog = FpsConsoleLog();
     while (!glfwWindowShouldClose(window)) {
       frameBufferTexture->bind();
       glEnable(GL_DEPTH_TEST);
@@ -98,6 +103,7 @@ void RasterWindow::start(int argc, char** argv) {
       /* put the stuff we've been drawing onto the display */
       glfwSwapBuffers(window);
       glfwPollEvents();
+      fpsLog.frameEnd();
     }
   }
 
