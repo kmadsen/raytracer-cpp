@@ -13,6 +13,8 @@ public:
 		: position(_position), color(_color) {}
 	virtual ~PointLight(void);
 
+	LightType type() const { return LightType::TPoint; }
+
 	void preprocess(const RenderContext& context);
 	double getLight(Color& light_color, Vector& light_direction,
 		const RenderContext& context, const Point& pos) const;

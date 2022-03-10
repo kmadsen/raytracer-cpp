@@ -72,34 +72,4 @@ void LambertianMaterial::hybridShade(Color& result, const Color& colorIn, const 
 		const Ray& ray, const HitRecord& hit) const
 {
 	result = colorIn;
-/*
-	if (!renderShadows)
-		return;
-	
-	// get the point the ray hit the surface.
-	Point hitpos = ray.pos + ray.dir * hit.getMinT();
-
-	Vector normal;
-	hit.getPrimitive()->normal(normal, context, hitpos, ray, hit);
-
-	if(normal.dot(ray.dir) > 0)
-		normal = -normal;
-
-	Scene* scene = context.getScene();
-
-	int numLights = scene->getLights().size();
-	Light** lights = scene->getLightsAsArray();
-	for (int i = 0; i < numLights; i++)	{
-		Color lightColor;
-		Vector lightDir;
-		double dist = lights[i]->getLight(lightColor, lightDir, context, hitpos);
-
-		bool isInShadow = scene->traceShadowRay(context, Ray(hitpos, lightDir), HitRecord(dist));
-		double cosphi = normal.dot(lightDir);
-		if(isInShadow || cosphi <= 0)
-		{
-			result -= lightColor*(Kd*cosphi);
-		}
-	}
-	*/
 }

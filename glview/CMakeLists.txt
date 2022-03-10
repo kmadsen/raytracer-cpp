@@ -31,6 +31,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Include libraries
 add_subdirectory(raymath)
 add_subdirectory(raster)
+add_subdirectory(tinygltf)
 
 # Executables
 file(GLOB SOURCES src/*.cpp)
@@ -50,4 +51,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   GLEW ${GLEW_LIBRARIES}
   raymath
   raster
+  tinygltf
 )

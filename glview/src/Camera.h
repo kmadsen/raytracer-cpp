@@ -7,20 +7,22 @@ class RenderContext;
 #include "Point.h"
 #include "Vector.h"
 
+enum CameraType { Pinhole, Ortho, Thinlens };
+
 class Camera
 {
 public:
 	Camera(void);
 	virtual ~Camera(void);
 
+	virtual CameraType type() const = 0;
 	virtual void preprocess(const RenderContext& context);
-
 	virtual void makeRay(Ray &ray, const RenderContext& context, const double& x, const double& y) const = 0; 
 	void mapPixel(const RenderContext& context, const int& ix, const int& iy, double& tx, double& ty) const;
 
-	Point getEye() { return eye; }
-	Point getLookat() { return lookat; }
-	Vector getUp() { return up; }
+	Point getEye() const { return eye; }
+	Point getLookat() const { return lookat; }
+	Vector getUp() const { return up; }
 
 	void setEye(const Point& _eye) { eye = _eye; }
 	void setLookat(const Point& _lookat) { lookat = _lookat; }
