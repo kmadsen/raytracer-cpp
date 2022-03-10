@@ -20,6 +20,8 @@ public:
 		up.normalize();
 	}
 
+	CameraType type() const { return CameraType::Ortho; }
+
 	virtual ~OrthographicCamera(void);
 
 	void makeRay(Ray &ray, const RenderContext& context, 

@@ -56,14 +56,14 @@ public:
 	void setCamera(Camera* _camera) {
 		camera = _camera;
 	}
-	Camera* getCamera() { return camera; }
+	Camera* getCamera() const { return camera; }
 
 	void setImage(Image* _image) {
 		image = _image;
 	}
 	// I made this function so the pinhole camera could map pixels to rays.
 	// I'm not sure if this is the best way to do this.
-	Image* getImage() { 
+	Image* getImage() const {
 		return image; 
 	}
 	void setImageResolution(int xres, int yres);

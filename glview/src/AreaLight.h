@@ -12,11 +12,10 @@ class AreaLight : public Light
 {
 public:
 	AreaLight(const Point& _corner, const Vector& _edge1, const Vector& _edge2, const Color& _color ) 
-		: corner(_corner), edge1(_edge1), edge2(_edge2), color(_color)
-	{
-
-	}
+		: corner(_corner), edge1(_edge1), edge2(_edge2), color(_color) {}
 	virtual ~AreaLight(void);
+
+	LightType type() const { return LightType::TArea; }
 
 	void preprocess(const RenderContext& context);
 	double getLight(Color& light_color, Vector& light_direction,

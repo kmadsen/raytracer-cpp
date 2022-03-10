@@ -67,6 +67,13 @@
     "typeinfo": "cpp",
     "codecvt": "cpp",
     "forward_list": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "*.ipp": "cpp",
+    "csignal": "cpp",
+    "strstream": "cpp",
+    "complex": "cpp",
+    "list": "cpp",
+    "typeindex": "cpp",
+    "variant": "cpp"
   },
 }

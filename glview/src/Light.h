@@ -6,11 +6,15 @@ class Vector;
 class Point;
 class RenderContext;
 
+enum LightType { TPoint, TArea, TDirection };
+
 class Light
 {
 public:
 	Light(void);
 	virtual ~Light(void);
+
+	virtual LightType type() const = 0;
 
 	virtual void preprocess(const RenderContext& context) = 0;
 	virtual double getLight(Color& light_color, Vector& light_direction,

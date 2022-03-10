@@ -12,6 +12,8 @@ public:
 	ThinlensCamera(const Point& _eye, const Point& _lookat, const Vector& _up, const double& _hfov, const double& _lensradius, const double& _focus);
 	virtual ~ThinlensCamera(void);
 
+	CameraType type() const { return CameraType::Thinlens; }
+
 	void preprocess(const RenderContext& context);
 
 	void makeRay(Ray & ray, const RenderContext& context, const double& x, const double& y) const;

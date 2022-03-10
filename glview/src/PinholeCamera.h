@@ -24,10 +24,11 @@ public:
 
 	virtual ~PinholeCamera(void);
 
-	double getFieldOfView() { return fieldOfView; }
+	CameraType type() const { return CameraType::Pinhole; }
 
 	void preprocess(const RenderContext& context);
 	void makeRay(Ray & ray, const RenderContext& context, const double& x, const double& y) const;
+	double getFieldOfView() const { return fieldOfView; }
 private:
 	double fieldOfView;
 	Vector u, v;
