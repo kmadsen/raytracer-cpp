@@ -12,7 +12,7 @@ public:
 	ThinlensCamera(const Point& _eye, const Point& _lookat, const Vector& _up, const double& _hfov, const double& _lensradius, const double& _focus);
 	virtual ~ThinlensCamera(void);
 
-	CameraType type() const { return CameraType::Thinlens; }
+	CameraType type() const { return CameraType::TThinlens; }
 
 	void preprocess(const RenderContext& context);
 

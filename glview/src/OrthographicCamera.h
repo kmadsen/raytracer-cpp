@@ -20,7 +20,7 @@ public:
 		up.normalize();
 	}
 
-	CameraType type() const { return CameraType::Ortho; }
+	CameraType type() const { return CameraType::TOrtho; }
 
 	virtual ~OrthographicCamera(void);
 

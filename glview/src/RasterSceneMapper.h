@@ -37,11 +37,11 @@ static raster::Camera* fromPinholeCamera(const PinholeCamera* camera) {
 static raster::Camera* fromCamera(const Camera* camera) {
   switch (camera->type())
   {
-  case CameraType::Pinhole:
+  case CameraType::TPinhole:
     return fromPinholeCamera(static_cast<const PinholeCamera*>(camera));
     break;
   default:
-    fprintf(stderr, "Unrecognized camera type %s\n", camera->type());
+    fprintf(stderr, "Unrecognized camera type %s\n", camera->name());
     exit(EXIT_FAILURE);
   }
 }
@@ -67,7 +67,7 @@ static raster::Scene* fromScene(const Scene* scene) {
     if (light->type() == LightType::TPoint) {
       toPointLights.push_back(fromPointLight(static_cast<const PointLight*>(light)));
     } else {
-      fprintf(stderr, "Unrecognized light type %s\n", light->type());
+      fprintf(stderr, "Unrecognized light type %s\n", light->name());
       exit(EXIT_FAILURE);
     }
   }

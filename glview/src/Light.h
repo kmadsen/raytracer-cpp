@@ -7,6 +7,7 @@ class Point;
 class RenderContext;
 
 enum LightType { TPoint, TArea, TDirection };
+static const char* LightName[3] { "TPoint", "TArea", "TDirection" };
 
 class Light
 {
@@ -14,6 +15,7 @@ public:
 	Light(void);
 	virtual ~Light(void);
 
+	const char* name() const { return LightName[type()]; }
 	virtual LightType type() const = 0;
 
 	virtual void preprocess(const RenderContext& context) = 0;
