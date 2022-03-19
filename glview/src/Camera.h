@@ -7,7 +7,8 @@ class RenderContext;
 #include "Point.h"
 #include "Vector.h"
 
-enum CameraType { Pinhole, Ortho, Thinlens };
+enum CameraType { TPinhole, TOrtho, TThinlens };
+static const char* CameraName[3] { "TPinhole", "TOrtho", "TThinlens" };
 
 class Camera
 {
@@ -15,7 +16,10 @@ public:
 	Camera(void);
 	virtual ~Camera(void);
 
+	const char* name() const { return CameraName[type()]; }
 	virtual CameraType type() const = 0;
+
+
 	virtual void preprocess(const RenderContext& context);
 	virtual void makeRay(Ray &ray, const RenderContext& context, const double& x, const double& y) const = 0; 
 	void mapPixel(const RenderContext& context, const int& ix, const int& iy, double& tx, double& ty) const;

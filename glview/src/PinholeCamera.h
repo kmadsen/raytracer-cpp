@@ -24,7 +24,7 @@ public:
 
 	virtual ~PinholeCamera(void);
 
-	CameraType type() const { return CameraType::Pinhole; }
+	CameraType type() const { return CameraType::TPinhole; }
 
 	void preprocess(const RenderContext& context);
 	void makeRay(Ray & ray, const RenderContext& context, const double& x, const double& y) const;
