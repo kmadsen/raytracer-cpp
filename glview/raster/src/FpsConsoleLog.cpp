@@ -14,6 +14,7 @@ using std::string;
 FpsConsoleLog::FpsConsoleLog() {
   lastTime = high_resolution_clock::now();
   cout << "Frames per second measuring..." << flush;
+  frames = 0;
 }
 
 FpsConsoleLog::~FpsConsoleLog() {

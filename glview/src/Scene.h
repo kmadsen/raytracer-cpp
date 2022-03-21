@@ -110,8 +110,8 @@ private:
 	double minAtten;
 	Group* group;
 	std::vector<Light*> lights;
-	int* stencils;
-	float* pixels;
+	int* stencils = nullptr;
+	float* pixels = nullptr;
 };
 
 #endif // #ifndef Scene_h

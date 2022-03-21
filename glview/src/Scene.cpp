@@ -25,9 +25,12 @@ Scene::Scene(void)
 
 Scene::~Scene(void)
 {
-	//Light[] lightsAsArray;
-	delete[] stencils;
-	delete[] pixels;
+	if (stencils != nullptr) {
+		delete[] stencils;
+	}
+	if (pixels != nullptr) {
+		delete[] pixels;
+	}
 	delete background;
 	delete image;
 	delete camera;
@@ -45,7 +48,6 @@ void Scene::setImageResolution(int xres, int yres)
 	}
 	image = new Image(xres, yres);	
 }
-
 
 void Scene::preprocess()
 {
