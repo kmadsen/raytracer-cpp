@@ -6,7 +6,6 @@ class RenderContext;
 class Ray;
 class HitRecord;
 
-#define USING_OPENGL
 #ifdef USING_OPENGL
 	#include "GL/glut.h"
 #endif 

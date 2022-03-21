@@ -9,7 +9,7 @@
 
 class Ring : public Primitive {
  public:
-  Ring(Material* _material, const Point& _center, const Vector& _norm,
+  Ring(std::shared_ptr<Material> _material, const Point& _center, const Vector& _norm,
        const double& _radiusInner, const double& _radiusOuter)
       : Primitive(_material),
         center(_center),

@@ -1,14 +1,18 @@
 #ifndef Primitive_h
 #define Primitive_h
 
+#include <memory>
+
 #include "Object.h"
 
 class Material;
 
 class Primitive : public Object {
  public:
-  Primitive(Material* _material) : material(_material) {}
-  ~Primitive(void) {}
+  Primitive(std::shared_ptr<Material> _material) : material(_material) {}
+  ~Primitive(void) {
+    material = nullptr;
+  }
 
   virtual void preprocess(const RenderContext& context);
   virtual void intersect(HitRecord& hit, const RenderContext& context,
@@ -18,10 +22,10 @@ class Primitive : public Object {
 
   void setOpenGLMaterial() const;
 
-  Material* getMaterial() { return material; }
+  std::shared_ptr<Material> getMaterial() { return material; }
 
  protected:
-  Material* material;
+  std::shared_ptr<Material> material;
   Primitive(const Primitive&);
   Primitive& operator=(const Primitive&);
 };

@@ -8,7 +8,7 @@
 
 class Box : public Primitive {
  public:
-  Box(Material* _material, const Point& _corner0, const Point& _corner1)
+  Box(std::shared_ptr<Material> _material, const Point& _corner0, const Point& _corner1)
       : Primitive(_material), corner0(_corner0), corner1(_corner1) {}
 
   virtual ~Box(void);

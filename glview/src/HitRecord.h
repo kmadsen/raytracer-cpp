@@ -1,6 +1,8 @@
 #ifndef HitRecord_h
 #define HitRecord_h
 
+#include <memory>
+
 #include "Constants.h"
 
 #include "Material.h"
@@ -15,12 +17,11 @@ public:
 	{
 		// set to NULL
 		primitive = 0x0;
-		material = 0x0;
 	}
 
 	virtual ~HitRecord(void);
 
-	bool hit(double t, const Primitive* hit_prim, const Material* hit_matl) 
+	bool hit(double t, const Primitive* hit_prim, const std::shared_ptr<Material> hit_matl) 
 	{ 
 		if(t > EPSILON && t < min){
 			min = t;
@@ -37,12 +38,12 @@ public:
 	const Primitive* getPrimitive() const {
 		return primitive;
 	}
-	const Material* getMaterial() const {
+	const std::shared_ptr<Material> getMaterial() const {
 		return material;
 	}
 private:
 	const Primitive* primitive;
-	const Material* material;
+	std::shared_ptr<Material> material;
 	double min;
 };
 

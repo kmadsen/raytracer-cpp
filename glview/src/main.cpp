@@ -13,18 +13,23 @@ using std::cerr;
 using std::endl;
 using std::ifstream;
 
-void handler(int sig) {
-  void *array[10];
-  size_t size;
-
-  // get void*'s for all entries on the stack
-  size = backtrace(array, 10);
-
-  // print out all the frames to stderr
-  fprintf(stderr, "Error: signal %d:\n", sig);
-  backtrace_symbols_fd(array, size, STDERR_FILENO);
-  exit(1);
-}
+// Found that you do not need this on Linux.
+//
+// https://www.freedesktop.org/software/systemd/man/coredumpctl.html
+//
+// This will start gdb on the last core dump and you can have an
+// interactive debugger for the core.
+//  $ coredumpctl debug
+//  $ (gdb) backtrace
+//
+// Example 2. Invoke gdb on the last core dump
+// void handler(int sig) {
+//   size_t size;
+//   void* array[10];
+//   size = backtrace(array, 10);
+//   backtrace_symbols_fd(array, size, STDERR_FILENO);
+//   exit(EXIT_FAILURE);
+// }
 
 /**
  * @brief The entry point for the raytracer.
@@ -36,17 +41,18 @@ void handler(int sig) {
  * @return int 0 .
  */
 int main(int argc, char** argv) {
-  signal(SIGSEGV, handler);
+  // signal(SIGSEGV, handler);
+  // raise(SIGSEGV); test the handler
 
   if (argc < 2) {
     cerr << "You need to give the program a scene" << endl;
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   ifstream sceneFile(argv[1]);
   if (!sceneFile.good()) {
     cerr << "This scene file was bad: " << argv[1] << endl;
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if (argc > 2) {
@@ -60,7 +66,7 @@ int main(int argc, char** argv) {
       return 0;
     } else {
       cout << "unrecognized command: " << argv[2] << "\n"
-        << "  try \"instant\" or do not pass a second argument\n";
+        << "  try \"instant\", \"glut\" or do not pass a second argument\n";
     }
   }
 

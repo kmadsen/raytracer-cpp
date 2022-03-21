@@ -66,12 +66,10 @@ void MetalMaterial::shade(Color& result, const RenderContext& context, const Ray
 
 	// Accumulate the specular light from every light source.
 	Color specular;
-	int numLights = scene->getLights().size();
-	Light** lights = scene->getLightsAsArray();
-	for (int i = 0; i < numLights; i++)	{
+	for (auto light : scene->getLights())	{
 		Color lightColor;
 		Vector lightDir;
-		double dist = lights[i]->getLight(lightColor, lightDir, context, hitpos);
+		double dist = light->getLight(lightColor, lightDir, context, hitpos);
 
 		auto hitRecord = HitRecord(dist);
 		bool isInShadow = scene->traceShadowRay(context, Ray(hitpos, lightDir), hitRecord);

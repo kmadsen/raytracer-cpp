@@ -17,7 +17,7 @@
 class Sphere : public Primitive
 {
 public:
-	Sphere(Material* _material, const Point& _center, const double& _radius)
+	Sphere(std::shared_ptr<Material> _material, const Point& _center, const double& _radius)
 		: Primitive(_material), center(_center), radius(_radius)
 	{}
 

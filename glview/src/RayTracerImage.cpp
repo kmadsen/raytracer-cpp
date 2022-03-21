@@ -37,4 +37,5 @@ void RayTracerImage::start(int argc, char** argv) {
 	scene->getImage()->write(filename);
 
 	cout << "finished instant run: xdg-open " << filename << "\n";
+	delete scene;
 };

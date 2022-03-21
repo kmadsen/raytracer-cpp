@@ -9,7 +9,7 @@
 
 class Triangle : public Primitive {
  public:
-  Triangle(Material* _material, const Point& corner0, const Point& corner1,
+  Triangle(std::shared_ptr<Material> _material, const Point& corner0, const Point& corner1,
            const Point& corner2)
       : Primitive(_material), p0(corner0), p1(corner1), p2(corner2) {}
 

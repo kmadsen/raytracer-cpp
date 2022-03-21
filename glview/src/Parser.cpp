@@ -26,6 +26,7 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
+#include <memory>
 
 using std::cerr;
 using std::endl;
@@ -509,15 +510,17 @@ Light *Parser::parseAreaLight()
 
 Light *Parser::parseLight()
 {
-    if ( peek( "point" ) )
-      return parsePointLight();
-	else if( peek( "area" ) )
+  if (peek("point")) {
+    return parsePointLight();
+  } else if(peek("area")) {
 	  return parseAreaLight();
-    throwParseException( "Expected a light type." );
-    return 0;
+  } else {
+    throwParseException("Expected a light type.");
+  }
+  return 0;
 }
 
-Material *Parser::parseLambertianMaterial()
+std::shared_ptr<Material> Parser::parseLambertianMaterial()
 {
   Color color( 1.0, 1.0, 1.0 );
   double Kd = 0.6;
@@ -535,10 +538,10 @@ Material *Parser::parseLambertianMaterial()
       else
         throwParseException( "Expected `color', `Kd', `Ka' or }." );
     }
-  return new LambertianMaterial( color, Kd, Ka );
+  return std::shared_ptr<Material>(new LambertianMaterial(color, Kd, Ka));
 }
 
-Material *Parser::parsePhongMaterial()
+std::shared_ptr<Material> Parser::parsePhongMaterial()
 {
   Color color( 1.0, 1.0, 1.0 );
   double Kd = 0.6;
@@ -562,10 +565,10 @@ Material *Parser::parsePhongMaterial()
       else
         throwParseException( "Expected `color', `Kd', `Ka', `highlight', `exponent' or }." );
     }
-  return new PhongMaterial( color, Kd, Ka, highlight, exponent );
+  return std::shared_ptr<Material>(new PhongMaterial(color, Kd, Ka, highlight, exponent));
 }
 
-Material *Parser::parseMetalMaterial()
+std::shared_ptr<Material> Parser::parseMetalMaterial()
 {
   Color color( 1.0f, 1.0f, 1.0f );
   int exponent = 100;
@@ -580,10 +583,10 @@ Material *Parser::parseMetalMaterial()
       else
         throwParseException( "Expected `color', `exponent' or }." );
     }
-  return new MetalMaterial( color, exponent );
+  return std::shared_ptr<Material>(new MetalMaterial(color, exponent));
 }
 
-Material *Parser::parseDielectricMaterial()
+std::shared_ptr<Material> Parser::parseDielectricMaterial()
 {
   double eta = 1.05;
   Color extinction( 0.0f, 0.0f, 0.0f );
@@ -601,10 +604,10 @@ Material *Parser::parseDielectricMaterial()
       else
         throwParseException( "Expected `color', `exponent' or }." );
     }
-  return new DielectricMaterial( eta, extinction, exponent );
+  return std::shared_ptr<Material>(new DielectricMaterial(eta, extinction, exponent));
 }
 
-Material *Parser::parseGlossymetalMaterial()
+std::shared_ptr<Material> Parser::parseGlossymetalMaterial()
 {
   double color = 0.7;
   int exponent = 300;
@@ -623,36 +626,38 @@ Material *Parser::parseGlossymetalMaterial()
       else
         throwParseException( "Expected `color', `exponent', `angle', or }." );
     }
-  return new GlossymetalMaterial( color, exponent, angle );  
+  return std::shared_ptr<Material>(new GlossymetalMaterial(color, exponent, angle));  
 }
 
-Material *Parser::parseMaterial()
+std::shared_ptr<Material> Parser::parseMaterial()
 {
-    if ( peek( "lambertian" ) )
-      return parseLambertianMaterial();
-    else if ( peek( "phong" ) )
-      return parsePhongMaterial();
-    else if ( peek( "metal" ) )
-      return parseMetalMaterial();
+  if ( peek( "lambertian" ) )
+    return parseLambertianMaterial();
+  else if ( peek( "phong" ) )
+    return parsePhongMaterial();
+  else if ( peek( "metal" ) )
+    return parseMetalMaterial();
 	else if ( peek( "dielectric" ) )
 	  return parseDielectricMaterial();
 	else if ( peek( "glossymetal" ) )
 	  return parseGlossymetalMaterial();
-    else if ( next_token.token_type == Token::string ) {
-        map< string, Material * >::iterator found = defined_materials.find( parseString() );
-        if ( found != defined_materials.end() )
-            return ( *found ).second;
+  else if ( next_token.token_type == Token::string ) {
+    map<string, std::shared_ptr<Material>>::iterator found = defined_materials.find( parseString() );
+    if (found != defined_materials.end()) {
+      return found->second;
     }
-    throwParseException( "Expected a material type." );
-    return 0;
+  }
+  throwParseException( "Expected a material type." );
+  return 0;
 }
 
 Object *Parser::parseGroupObject()
 {
     Group *group = new Group();
-    match( Token::left_brace, "Expected a left brace" );
-    while ( !peek( Token::right_brace ) )
-        group->addObject( parseObject() );
+    match(Token::left_brace, "Expected a left brace");
+    while (!peek(Token::right_brace)) {
+      group->addObject(parseObject());
+    }
     return group;
 }
 
@@ -667,7 +672,7 @@ Object *Parser::parseBVHGroupObject()
 
 Object *Parser::parsePlaneObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Vector normal( 0.0, 0.0, 1.0 );
   Point point( 0.0, 0.0, 0.0 );
   if ( peek( Token::left_brace ) )
@@ -688,7 +693,7 @@ Object *Parser::parsePlaneObject()
 
 Object *Parser::parseSphereObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Point center( 0.0, 0.0, 0.0 );
   double radius = 0.5;
   if ( peek( Token::left_brace ) )
@@ -709,7 +714,7 @@ Object *Parser::parseSphereObject()
 
 Object *Parser::parseBoxObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Point corner1( -0.5, -0.5, 0.0 );
   Point corner2( 0.5, 0.5, 1.0 );
   if ( peek( Token::left_brace ) )
@@ -730,7 +735,7 @@ Object *Parser::parseBoxObject()
 
 Object *Parser::parseDiskObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Point center( 0.0, 0.0, 0.0 );
   Vector normal( 0.0, 0.0, 1.0 );
   double radius = 0.5;
@@ -754,7 +759,7 @@ Object *Parser::parseDiskObject()
 
 Object *Parser::parseRingObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Point center( 0.0, 0.0, 0.0 );
   Vector normal( 0.0, 0.0, 1.0 );
   double radius1 = 0.5;
@@ -781,7 +786,7 @@ Object *Parser::parseRingObject()
 
 Object *Parser::parseTriangleObject()
 {
-  Material *material = default_material;
+  std::shared_ptr<Material> material = default_material;
   Point corner1( -0.5, 0.0, 0.0 );
   Point corner2( 0.0, 0.0, 1.0 );
   Point corner3( 0.5, 0.0, 0.0 );
@@ -838,6 +843,15 @@ Parser::Parser(istream &input)
   readNextToken();
 }
 
+Parser::~Parser() {
+  std::cout << "When does ~Parser happen" << endl;
+  for (const auto &value : defined_objects) {
+    delete value.second;
+  }
+  defined_objects.clear();
+  defined_materials.clear();
+}
+
 Scene *Parser::parseScene(string &filename)
 {
   filename = "image.ppm";
@@ -855,8 +869,8 @@ Scene *Parser::parseScene(string &filename)
       scene->setMaxRayDepth( parseInteger() );
     else if ( peek( "minattenuation" ) )
       scene->setMinAttenuation( parseReal() );
-	else if ( peek( "samples" ) )
-	  scene->setSamples( parseInteger() );
+    else if ( peek( "samples" ) )
+      scene->setSamples( parseInteger() );
     else if ( peek( "camera" ) )
       scene->setCamera( parseCamera() );
     else if ( peek( "background" ) )
@@ -870,12 +884,13 @@ Scene *Parser::parseScene(string &filename)
     else if ( peek( "define" ) ) {
       if ( peek( "material" ) ) {
         string name( parseString() );
-        defined_materials.insert( pair< string, Material * >( name, parseMaterial() ) );
-	  } else if ( peek( "object" ) ) {
+        defined_materials.insert(pair<string, std::shared_ptr<Material>>(name, parseMaterial()));
+	    } else if ( peek( "object" ) ) {
         string name( parseString() );
         defined_objects.insert( pair< string, Object * >( name, parseObject() ) );
-      } else
+      } else {
         throwParseException( "Expected `material', or `object'" );
+      }
     }
     else if ( peek( Token::end_of_file ) )
         break;

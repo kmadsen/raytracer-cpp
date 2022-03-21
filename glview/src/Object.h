@@ -9,7 +9,6 @@
 #include <math.h>
 #include <cstdlib>
 
-#define USING_OPENGL
 #ifdef USING_OPENGL
 	#include "GL/glut.h"
 #endif 

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <memory>
 
 class Camera;
 class Background;
@@ -36,8 +37,8 @@ class Parser {
   int line_number;
   int column_number;
   Token next_token;
-  Material *default_material;
-  std::map< std::string, Material * > defined_materials;
+  std::shared_ptr<Material> default_material;
+  std::map< std::string, std::shared_ptr<Material>> defined_materials;
   std::map< std::string, Object * > defined_objects;
 
   void throwParseException(
@@ -62,7 +63,6 @@ class Parser {
   Vector const parseVector();
   Point const parsePoint();
   Color const parseColor();
-
   Camera *parsePinholeCamera();
   Camera *parseOrthographicCamera();
   Camera *parseThinlensCamera();
@@ -75,12 +75,12 @@ class Parser {
   Light *parseAreaLight();
   Light *parseLight();
 
-  Material *parseDielectricMaterial();
-  Material *parseLambertianMaterial();
-  Material *parseGlossymetalMaterial();
-  Material *parsePhongMaterial();
-  Material *parseMetalMaterial();
-  Material *parseMaterial();
+  std::shared_ptr<Material> parseDielectricMaterial();
+  std::shared_ptr<Material> parseLambertianMaterial();
+  std::shared_ptr<Material> parseGlossymetalMaterial();
+  std::shared_ptr<Material> parsePhongMaterial();
+  std::shared_ptr<Material> parseMetalMaterial();
+  std::shared_ptr<Material> parseMaterial();
 
   Object *parseGroupObject();
   Object *parseBVHGroupObject();
@@ -92,9 +92,10 @@ class Parser {
   Object *parseTriangleObject();
   Object *parseObject();
 
-  public:
+ public:
 
   Parser(std::istream &input);
+  virtual ~Parser();
 
   Scene *parseScene(std::string &filename);
 

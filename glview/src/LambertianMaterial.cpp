@@ -50,12 +50,10 @@ void LambertianMaterial::shade(Color& result, const RenderContext& context, cons
 	Scene* scene = context.getScene();
 	Color allLightsColor = scene->getAmbient()*Ka;
 
-	int numLights = scene->getLights().size();
-	Light** lights = scene->getLightsAsArray();
-	for (int i = 0; i < numLights; i++)	{
+	for (auto light : scene->getLights())	{
 		Color lightColor;
 		Vector lightDir;
-		double dist = lights[i]->getLight(lightColor, lightDir, context, hitpos);
+		double dist = light->getLight(lightColor, lightDir, context, hitpos);
 		auto hitRecord = HitRecord(dist);
 		bool isInShadow = scene->traceShadowRay(context, Ray(hitpos, lightDir), hitRecord);
 		double cosphi = normal.dot(lightDir);

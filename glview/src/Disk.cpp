@@ -2,7 +2,7 @@
 
 #include "Intersect.h"
 
-Disk::Disk(Material* _material, const Point& _center, const Vector& _norm,
+Disk::Disk(std::shared_ptr<Material> _material, const Point& _center, const Vector& _norm,
            const double& _radius)
     : Primitive(_material), center(_center), norm(_norm), radius(_radius) {}
 

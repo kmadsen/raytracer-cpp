@@ -9,7 +9,7 @@
 
 class Plane : public Primitive {
  public:
-  Plane(Material* _material, const Vector& _norm, const Point& _point)
+  Plane(std::shared_ptr<Material> _material, const Vector& _norm, const Point& _point)
       : Primitive(_material), norm(_norm), point(_point) {}
   virtual ~Plane(void) {}
 

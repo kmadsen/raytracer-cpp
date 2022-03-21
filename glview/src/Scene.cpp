@@ -30,30 +30,32 @@ Scene::~Scene(void)
 	//Light[] lightsAsArray;
 	delete[] stencils;
 	delete[] pixels;
+	delete background;
+	delete image;
+	delete camera;
+	for (auto light : lights) {
+		delete light;
+	}
+	lights.clear();
+	delete group;
 }
 
 void Scene::setImageResolution(int xres, int yres)
 {
-	if (image != 0x0)
+	if (image != nullptr) {
 		delete image;
+	}
 	image = new Image(xres, yres);	
 }
 
 
 void Scene::preprocess()
 {
-	int numLights = lights.size();
-	if (lightsAsArray != 0x0)
-		delete lightsAsArray;
-	lightsAsArray = new Light*[numLights];
-	int i = 0;
-
 	RenderContext context(this);
-	objects->preprocess(context);
+	group->preprocess(context);
 	camera->preprocess(RenderContext(this));
-	for (auto light = lights.begin(); light != lights.end(); ++light) {
-		(*light)->preprocess(context);
-		lightsAsArray[i++] = (*light);
+	for (auto light : lights) {
+		light->preprocess(context);
 	}
 
 	stencils = new int[image->getXresolution() * image->getYresolution()];
@@ -71,7 +73,7 @@ void Scene::traceRay(Color& result, const RenderContext& context, const Ray& ray
 	} 
 	else
 	{
-		objects->intersect(hitRec, context, ray);
+		group->intersect(hitRec, context, ray);
 		if (hitRec.getMinT() < DBL_MAX) {						
 			hitRec.getMaterial()->shade(result, context, ray, hitRec, atten, depth + 1);
 		}
@@ -83,7 +85,7 @@ void Scene::traceRay(Color& result, const RenderContext& context, const Ray& ray
 
 bool Scene::traceShadowRay(const RenderContext& context, const Ray& ray, HitRecord& hitRec) const
 {
-	objects->intersect(hitRec, context, ray);
+	group->intersect(hitRec, context, ray);
 	return (hitRec.getPrimitive() != 0x0);
 }
 	
@@ -99,8 +101,9 @@ void Scene::renderScene()
 	RenderContext context(this);
 	Color atten(1,1,1);
 	
-	if (samples < 1)
+	if (samples < 1) {
 		samples = 1;
+	}
 	for (x = 0; x < xres; x++) {
 		for (y = 0; y < yres; y++) {
 			Color totalColor;
@@ -126,11 +129,11 @@ void Scene::setUpLightsOpenGL()
 	GLfloat light_position[4];
 	GLfloat light_color[4];
 
-	for (auto light = lights.begin(); light != lights.end(); ++light) {
+	for (auto light : lights) {
 		Color lightColor;
 		Vector lightDirection;
 		Point lightPosition;
-		(*light)->getLightInfo(lightColor, lightDirection, lightPosition);  
+		light->getLightInfo(lightColor, lightDirection, lightPosition);  
 
 		glEnable(lightEnum);
 
@@ -162,7 +165,7 @@ void Scene::renderOpenGL(const Vector& lookdir)
 	// First Pass, render to the stencil buffer
 	glEnable(GL_STENCIL_TEST);  
 
-	objects->rasterize(lookdir);	
+	group->rasterize(lookdir);	
 
 	glReadPixels(0, 0, 512, 512, GL_STENCIL_INDEX, GL_INT, stencils);
 	glDisable(GL_STENCIL_TEST);
@@ -197,11 +200,11 @@ void Scene::renderRasterizedScene(const RenderContext& context)
 	Ray ray;
 
 	Color atten(1,1,1);
-	
-	Object** objectsAsArray = objects->getObjectsAsArray();
 
-	if (samples < 1)
+	if (samples < 1) {
 		samples = 1;
+	}
+	auto objects = group->getObjects();
 	for (int y = ysrt; y < yend; y++) {
 		for (int x = xsrt; x < xend; x++) {
 			Color sampleColor = background->getBackground(); 
@@ -213,7 +216,7 @@ void Scene::renderRasterizedScene(const RenderContext& context)
 			int objectIndex = stencils[bufferIndex];
 
 			if (objectIndex >= 0) {
-				objectsAsArray[objectIndex]->intersect(hitRec, context, ray);
+				objects[objectIndex]->intersect(hitRec, context, ray);
 				if (hitRec.getMinT() < DBL_MAX) {	
 					Color rastColor(pixels[bufferIndex * 3],
 						pixels[bufferIndex * 3 + 1],

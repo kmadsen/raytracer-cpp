@@ -33,10 +33,6 @@ public:
 		return lights; 
 	}
 
-	Light** getLightsAsArray() const {
-		return lightsAsArray;
-	}
-
 	void setAmbient(const Color& _ambient) {
 		ambient = _ambient;
 	}
@@ -84,12 +80,12 @@ public:
 		return minAtten;
 	}
 
-	void setObjects(Group* _objects) {
-		objects = _objects;
+	void setObjects(Group* _group) {
+		group = _group;
 	}
 
 	Group* getObjects() const {
-		return objects;
+		return group;
 	}
 
 	void traceRay(Color& result, const RenderContext& context, const Ray& ray,
@@ -108,13 +104,12 @@ private:
 	Color ambient;
 	Background* background;
 	Camera* camera;
-	Image* image;
+	Image* image = nullptr;
 	int maxRayDepth;
-	int samples;
+	int samples = 0;
 	double minAtten;
-	Group* objects;
+	Group* group;
 	std::vector<Light*> lights;
-	Light** lightsAsArray;
 	int* stencils;
 	float* pixels;
 };

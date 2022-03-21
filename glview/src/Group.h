@@ -39,10 +39,8 @@ public:
 	}
 
 	std::vector<Object*> getObjects() { return objects; }
-	Object** getObjectsAsArray() { return objectsAsArray; }
 protected:
 	std::vector<Object*> objects;
-	Object **objectsAsArray;
 };
 
 #endif // Group_h

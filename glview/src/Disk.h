@@ -11,7 +11,7 @@
 class Disk : public Primitive
 {
 public:
-	Disk(Material* _material, const Point& _center, const Vector& _norm, const double& _radius);
+	Disk(std::shared_ptr<Material> _material, const Point& _center, const Vector& _norm, const double& _radius);
 	virtual ~Disk(void) {}
 
 	void preprocess(const RenderContext& context);

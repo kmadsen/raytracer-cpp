@@ -15,10 +15,12 @@ void RayTracerGlfw::start(int argc, char** argv) {
 
   // parse the scene file
   string filename = argv[1];
-  Parser parser(sceneFile);
-  auto scene = parser.parseScene(filename);
+  Parser* parser = new Parser(sceneFile);
+  auto scene = parser->parseScene(filename);
   auto rasterScene = fromScene(scene);
   auto rasterWindow = RasterWindow();
   rasterWindow.start(rasterScene);
   delete rasterScene;
+  delete parser;
+  delete scene;
 }
