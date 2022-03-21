@@ -27,7 +27,10 @@ void Disk::normal(Vector& normal, const RenderContext&, const Point& hitpos,
 }
 
 void Disk::rasterize(const Vector& lookdir) const {
-#ifdef USING_OPENGL
+  GLUquadricObj* quadratic = gluNewQuadric();
+  gluQuadricNormals(quadratic, GLU_SMOOTH);
+  gluQuadricTexture(quadratic, GL_TRUE);
+
   glPushMatrix();
   Vector zAxis = Vector(0.0, 0.0, 1.0);
   Vector rotAxis = zAxis.cross(norm);
@@ -40,5 +43,6 @@ void Disk::rasterize(const Vector& lookdir) const {
 
   gluDisk(quadratic, 0.0, radius, 50, 10);
   glPopMatrix();
-#endif
+
+  gluDeleteQuadric(quadratic);
 }

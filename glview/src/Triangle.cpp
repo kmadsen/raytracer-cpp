@@ -19,7 +19,6 @@ void Triangle::setBounds() {
 }
 
 void Triangle::rasterize(const Vector& lookdir) const {
-#ifdef USING_OPENGL
   glPushMatrix();
   glBegin(GL_TRIANGLES);
 
@@ -34,7 +33,6 @@ void Triangle::rasterize(const Vector& lookdir) const {
   glVertex3f(p2.x, p2.y, p2.z);
   glEnd();
   glPopMatrix();
-#endif
 }
 
 void Triangle::intersect(HitRecord& hit, const RenderContext& context,

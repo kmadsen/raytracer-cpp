@@ -28,7 +28,6 @@ void BVHGroup::addObject(Object* object)
 
 void BVHGroup::rasterize(const Vector &lookdir) const
 {
-#ifdef USING_OPENGL
 	if (l_object != 0x0) {
 		l_object->setOpenGLMaterial();
 		l_object->rasterize(lookdir);
@@ -36,8 +35,7 @@ void BVHGroup::rasterize(const Vector &lookdir) const
 	if (r_object != 0x0) {
 		r_object->setOpenGLMaterial();
 		r_object->rasterize(lookdir);
-	}	
-#endif
+	}
 }
 
 

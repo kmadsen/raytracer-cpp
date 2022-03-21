@@ -19,8 +19,6 @@
 #include <thread>
 #include <vector>
 
-#define USING_OPENGL
-
 SceneGlut *sceneGlut;
 
 void idle(void) {

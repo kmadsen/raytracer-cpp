@@ -6,12 +6,10 @@ Sphere::~Sphere(void)
 
 void Sphere::rasterize(const Vector &lookdir) const
 {
-#ifdef USING_OPENGL
 	glPushMatrix();
 	  glTranslatef(center.x, center.y, center.z);
 	  glutSolidSphere(radius, 100, 100);
 	glPopMatrix();
-#endif
 }
 
 void Sphere::preprocess(const RenderContext& context)

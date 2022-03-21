@@ -10,10 +10,6 @@
 #include "Vector.h"
 #include "HitRecord.h"
 
-#ifdef USING_OPENGL
-	#include "GL/glut.h"
-#endif 
-
 class Sphere : public Primitive
 {
 public:

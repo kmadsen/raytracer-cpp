@@ -9,10 +9,6 @@
 #include <math.h>
 #include <cstdlib>
 
-#ifdef USING_OPENGL
-	#include "GL/glut.h"
-#endif 
-
 class Object
 {
 public:
@@ -21,12 +17,6 @@ public:
 		bounds[0] = Point(HUGE_VAL);
 		bounds[1] = Point(-HUGE_VAL);
 		rastColor = Color(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX));
-
-#ifdef USING_OPENGL
-		quadratic=gluNewQuadric();			
-		gluQuadricNormals(quadratic, GLU_SMOOTH);	
-		gluQuadricTexture(quadratic, GL_TRUE);	
-#endif
 	}
 	virtual ~Object(void);
 
@@ -54,10 +44,6 @@ public:
 	Color rastColor;
 protected:
 	Point bounds[2];
-#ifdef USING_OPENGL
-GLUquadricObj *quadratic;
-#endif
-
 };
 
 #endif // Object_h

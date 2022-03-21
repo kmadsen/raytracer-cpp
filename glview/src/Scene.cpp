@@ -17,9 +17,7 @@
 #include <fstream>
 #include <time.h>
 
-#ifdef USING_OPENGL
-	#include "GL/glut.h"
-#endif 
+#include "GL/glut.h"
 
 Scene::Scene(void)
 {
@@ -122,7 +120,6 @@ void Scene::renderScene()
 
 void Scene::setUpLightsOpenGL()
 {
-#ifdef USING_OPENGL
 	glEnable(GL_LIGHTING);
 	
 	GLenum lightEnum = GL_LIGHT0;
@@ -156,12 +153,10 @@ void Scene::setUpLightsOpenGL()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-#endif
 }
 
 void Scene::renderOpenGL(const Vector& lookdir)
 {
-#ifdef USING_OPENGL 
 	// First Pass, render to the stencil buffer
 	glEnable(GL_STENCIL_TEST);  
 
@@ -171,8 +166,6 @@ void Scene::renderOpenGL(const Vector& lookdir)
 	glDisable(GL_STENCIL_TEST);
 
 	glReadPixels(0, 0, 512, 512, GL_RGB, GL_FLOAT, pixels); 
-
-#endif
 }
 
 Color getColorFromArray(float *pixels, int x, int y)

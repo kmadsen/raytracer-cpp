@@ -22,8 +22,6 @@
 #include "Scene.h"
 #include "Vector.h"
 
-#define USING_OPENGL
-
 using std::cout;
 
 void normalize(float v[3]) {
@@ -230,6 +228,7 @@ void LegacySceneGlut::drawObjects(Vector lookdir) {
     int resY = scene->getImage()->getYresolution();
     context->setBounds(0, 0, resX, resY);
     scene->renderRasterizedScene((*context));
+    delete context;
   }
 }
 

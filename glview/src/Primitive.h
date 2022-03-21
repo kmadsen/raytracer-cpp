@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Object.h"
+#include "GL/glut.h"
 
 class Material;
 

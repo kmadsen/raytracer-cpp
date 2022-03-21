@@ -12,27 +12,10 @@ void Plane::preprocess(const RenderContext& context) {
 }
 
 void Plane::rasterize(const Vector& lookdir) const {
-#ifdef USING_OPENGL
-  /*
-  glPushMatrix();
-    Vector u = lookdir.cross(norm) * 1000000.0;
-    Vector v = norm.cross(u) * 1000000.0;
+  GLUquadricObj* quadratic = gluNewQuadric();
+  gluQuadricNormals(quadratic, GLU_SMOOTH);
+  gluQuadricTexture(quadratic, GL_TRUE);
 
-    glBegin(GL_QUADS);
-    Vector vert = point.asVector() - u;
-    glVertex3f(vert.x, vert.y, vert.z);
-    vert = point.asVector() + v;
-    glVertex3f(vert.x, vert.y, vert.z);
-    vert = point.asVector() + u;
-    glVertex3f(vert.x, vert.y, vert.z);
-    vert = point.asVector() - v;
-    glVertex3f(vert.x, vert.y, vert.z);
-    glEnd();
-
-  glPopMatrix();
-  */
-
-  // instead rasterize a large disk
   glPushMatrix();
   Vector zAxis = Vector(0.0, 0.0, 1.0);
   Vector rotAxis = zAxis.cross(norm);
@@ -46,7 +29,7 @@ void Plane::rasterize(const Vector& lookdir) const {
   gluDisk(quadratic, 0.0, 100.0, 50, 10);
   glPopMatrix();
 
-#endif
+  gluDeleteQuadric(quadratic);
 }
 
 void Plane::intersect(HitRecord& hit, const RenderContext& context,

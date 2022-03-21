@@ -16,14 +16,12 @@ void Box::preprocess(const RenderContext& context)
 
 void Box::rasterize(const Vector &lookdir) const
 {
-#ifdef USING_OPENGL
 	glPushMatrix();
 	  Vector scale = corner1 - corner0;
 	  glTranslatef(corner0.x + scale.x / 2.0, corner0.y + scale.y / 2.0, corner0.z + scale.z / 2.0);
 	  glScalef(abs(scale.x), abs(scale.y), abs(scale.z));
 	  glutSolidCube(1.0);
 	glPopMatrix();
-#endif
 }
 
 void Box::intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const

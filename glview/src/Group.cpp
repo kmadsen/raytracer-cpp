@@ -1,4 +1,5 @@
 #include "Group.h"
+#include "GL/glut.h"
 
 Group::Group(void) {}
 
@@ -20,7 +21,6 @@ void Group::preprocess(const RenderContext& context) {
 }
 
 void Group::rasterize(const Vector& lookdir) const {
-#ifdef USING_OPENGL
   int i = 0;
   for (auto obj : objects) {
     glStencilFunc(GL_ALWAYS, i, 0xFF);
@@ -29,7 +29,6 @@ void Group::rasterize(const Vector& lookdir) const {
     obj->rasterize(lookdir);
     i++;
   }
-#endif
 }
 
 void Group::intersect(HitRecord& hit, const RenderContext& context,
