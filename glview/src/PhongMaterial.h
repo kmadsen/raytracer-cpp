@@ -17,6 +17,8 @@ public:
 					highlight(_highlight), exponent(_exponent) {}
 	virtual ~PhongMaterial(void);
 
+	MaterialType type() const { return MaterialType::TPhong; }
+
 	void preprocess(const RenderContext& context);
 	void shade(Color& result, const RenderContext& context, const Ray& ray,
 		const HitRecord& hit, const Color& atten, int depth) const;

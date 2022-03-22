@@ -9,6 +9,27 @@
 #include <math.h>
 #include <cstdlib>
 
+enum ObjectType {
+	TGroup,
+	TBVHGroup,
+	TTriangle,
+	TSphere,
+	TPlane,
+	TDisk,
+	TRing,
+	TBox
+};
+static const char* ObjectName[8] {
+	"TGroup",
+	"TBVHGroup",
+	"TTriangle",
+	"TSphere",
+	"TPlane",
+	"TDisk",
+	"TRing",
+	"TBox"
+};
+
 class Object
 {
 public:
@@ -19,6 +40,9 @@ public:
 		rastColor = Color(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX));
 	}
 	virtual ~Object(void);
+
+	const char* name() const { return ObjectName[type()]; }
+	virtual ObjectType type() const = 0;
 
 	virtual void setBounds() {}
 	virtual void preprocess(const RenderContext& context) = 0;

@@ -19,7 +19,7 @@ GLuint Shader::compileFile(const char* fileName, const GLuint& shaderType) {
     fprintf(stderr, "Error loading shader: %s\n", fileName);
     exit(EXIT_FAILURE);
   }
-  const GLchar* codeArray[] = { &(shaderCode[0]) };
+  const GLchar* codeArray[] = {&(shaderCode[0])};
   glShaderSource(shader, 1, codeArray, NULL);
   glCompileShader(shader);
 
@@ -96,13 +96,15 @@ void Shader::printAttributes(GLuint programHandle) {
 
   GLint written, size, location;
   GLenum type;
-  printf(" Index | Name\n");
-  printf("-----------------------------\n");
+  printf("Attribues %d/%d\n", nAttribs, maxLength);
+  printf(" Index | Written | Size | Type   | Name\n");
+  printf("-------------------------------------------\n");
   for (int i = 0; i < nAttribs; i++) {
     glGetActiveAttrib(programHandle, i, maxLength, &written, &size, &type,
                       name);
     location = glGetAttribLocation(programHandle, name);
-    printf(" %-5d | %s\n", location, name);
+    printf(" %-5d | %-7d | %-4d | %-6d | %s\n", location, written, size, type,
+           name);
   }
 
   delete[] name;

@@ -14,6 +14,8 @@ public:
 	Disk(std::shared_ptr<Material> _material, const Point& _center, const Vector& _norm, const double& _radius);
 	virtual ~Disk(void) {}
 
+	ObjectType type() const { return ObjectType::TDisk; }
+
 	void preprocess(const RenderContext& context);
 	void intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const;
 	void normal(Vector& normal, const RenderContext&, const Point& hitpos,

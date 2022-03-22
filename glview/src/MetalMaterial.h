@@ -11,6 +11,8 @@ public:
 		: color(_color), exponent(_exponent) {}
 	virtual ~MetalMaterial(void);
 
+	MaterialType type() const { return MaterialType::TMetal; }
+
 	void preprocess(const RenderContext& context);
 	void shade(Color& result, const RenderContext& context, const Ray& ray,
 		const HitRecord& hit, const Color& atten, int depth) const;

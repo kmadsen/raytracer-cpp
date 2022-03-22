@@ -15,6 +15,8 @@ class Triangle : public Primitive {
 
   virtual ~Triangle(void);
 
+	ObjectType type() const { return ObjectType::TTriangle; }
+
   void setBounds();
   void preprocess(const RenderContext& context);
   void intersect(HitRecord& hit, const RenderContext& context,
@@ -22,6 +24,10 @@ class Triangle : public Primitive {
   void normal(Vector& normal, const RenderContext&, const Point& hitpos,
               const Ray& ray, const HitRecord& hit) const;
   void rasterize(const Vector& lookdir) const;
+
+  Point getP0() const { return p0; }
+  Point getP1() const { return p1; }
+  Point getP2() const { return p2; }
 
  private:
   Vector v0, v1;

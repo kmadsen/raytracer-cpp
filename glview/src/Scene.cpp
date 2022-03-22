@@ -217,56 +217,12 @@ void Scene::renderRasterizedScene(const RenderContext& context)
 						pixels[bufferIndex * 3 + 1],
 						pixels[bufferIndex * 3 + 2]);
 
-					//hitRec.getMaterial()->shade(sampleColor, context, ray, hitRec, Color(1.0f, 1.0f, 1.0f), 1);
 					hitRec.getMaterial()->hybridShade(sampleColor, rastColor, context, ray, hitRec);
-
-					//pixels[bufferIndex * 3 + 0] = sampleColor.r();
-					//pixels[bufferIndex * 3 + 1] = sampleColor.g();
-					//pixels[bufferIndex * 3 + 2] = sampleColor.b();
 				}
 			} 
-			//objects->intersect(hitRec, context, ray);
-			//if (hitRec.getMinT() < DBL_MAX) {						
-			//	hitRec.getMaterial()->shade(sampleColor, context, ray, hitRec, atten, 1);
-			//}
 
 			image->set(x, y, sampleColor);
 			bufferIndex ++;
 		}
 	}
-	//glDrawPixels(512, 512, GL_RGB, GL_FLOAT, pixels); 
 }
-
-/*
-void Scene::antialiasImage(const int *stencils)
-{
-	// anti alias
-	for (y = 1; y < yres-1; y++) {
-		for (x = 1; x < xres-1; x++) {			
-			int numEdges = 0;
-			if (getStencilFromArray(stencils, x, y) != getStencilFromArray(stencils, x-1, y)) {
-				numEdges++;
-			}
-			if (getStencilFromArray(stencils, x, y) != getStencilFromArray(stencils, x+1, y)) {
-				numEdges++;
-			}
-			if (getStencilFromArray(stencils, x, y) != getStencilFromArray(stencils, x, y-1)) {
-				numEdges++;
-			}
-			if (getStencilFromArray(stencils, x, y) != getStencilFromArray(stencils, x, y+1)) {
-				numEdges++;
-			}
-
-			if (numEdges > 0) {
-				for (int i = 0; i < numEdges; i++) {
-					camera->makeRay(ray, context, x, y);
-					HitRecord hitRec(DBL_MAX);
-					traceRay(sampleColor, context, ray 
-				}
-
-				accum = accum / 4.0f;
-				image->set(x,y, xyColor);
-			}
-		}
-	}
-	*/

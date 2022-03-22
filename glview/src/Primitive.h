@@ -23,7 +23,7 @@ class Primitive : public Object {
 
   void setOpenGLMaterial() const;
 
-  std::shared_ptr<Material> getMaterial() { return material; }
+  std::shared_ptr<Material> getMaterial() const { return material; }
 
  protected:
   std::shared_ptr<Material> material;

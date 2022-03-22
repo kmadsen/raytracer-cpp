@@ -1,6 +1,8 @@
 #ifndef RASTERSCENEMAPPER_H_
 #define RASTERSCENEMAPPER_H_
 
+#include <GL/glew.h>
+
 #include "Point.h"
 #include "Vector.h"
 #include "Color.h"
@@ -10,73 +12,55 @@
 #include "PinholeCamera.h"
 #include "Light.h"
 #include "PointLight.h"
+#include "Group.h"
+#include "BVHGroup.h"
+#include "Triangle.h"
+#include "Sphere.h"
+#include "Plane.h"
+#include "Disk.h"
+#include "Ring.h"
+#include "Box.h"
+#include "Material.h"
+#include "PhongMaterial.h"
+#include "LambertianMaterial.h"
+#include "DielectricMaterial.h"
+#include "MetalMaterial.h"
+#include "GlossymetalMaterial.h"
 
-#include <GL/glew.h>
+class RasterSceneMapper
+{
+ // Private because this is a static class
+ private:
+  RasterSceneMapper() { }
+  ~RasterSceneMapper() { }
+ public:
+  static glm::vec3 fromVector(const Vector& vector);
+  static glm::vec3 fromPoint(const Point& point);
+  static glm::vec3 fromColor(const Color& color);
 
-static glm::vec3 fromVector(const Vector& vector) {
-  return glm::vec3(vector.x, vector.y, vector.z);
-}
+  static raster::Camera* fromPinholeCamera(const PinholeCamera* camera);
+  static raster::Camera* fromCamera(const Camera* camera);
 
-static glm::vec3 fromPoint(const Point& point) {
-  return glm::vec3(point.x, point.y, point.z);
-}
+  static raster::PointLight* fromPointLight(const PointLight* light);
 
-static glm::vec3 fromColor(const Color& color) {
-  return glm::vec3(color.r(), color.g(), color.b());
-}
+  static raster::Material* fromPhongMaterial(const PhongMaterial* phong);
+	static raster::Material* fromLambertianMaterial(const LambertianMaterial* lambertian);
+	static raster::Material* fromDielectricMaterial(const DielectricMaterial* dielectric);
+	static raster::Material* fromMetalMaterial(const MetalMaterial* metal);
+	static raster::Material* fromGlossymetalMaterial(const GlossymetalMaterial* glossymetal);
+  static raster::Material* fromMaterial(const Material* material);
 
-static raster::Camera* fromPinholeCamera(const PinholeCamera* camera) {
-  return new raster::Camera(
-    fromPoint(camera->getEye()),
-    fromPoint(camera->getLookat()),
-    fromVector(camera->getUp()),
-    camera->getFieldOfView()
-  );
-}
+  static raster::Triangle* fromTriangle(const Triangle* triangle);
+  static void fromSphere(const Sphere* sphere);
+  static void fromPlane(const Plane* plane);
+  static void fromDisk(const Disk* disk);
+  static void fromRing(const Ring* ring);
+  static void fromBox(const Box* box);
+  static void fromObject(raster::SceneBuilder* sceneBuilder, const Object* object);
+  static void fromGroup(raster::SceneBuilder* sceneBuilder, const Group* group);
+  static void fromBVHGroup(raster::SceneBuilder* sceneBuilder, const BVHGroup* bvhgroup);
 
-static raster::Camera* fromCamera(const Camera* camera) {
-  switch (camera->type())
-  {
-  case CameraType::TPinhole:
-    return fromPinholeCamera(static_cast<const PinholeCamera*>(camera));
-    break;
-  default:
-    fprintf(stderr, "Unrecognized camera type %s\n", camera->name());
-    exit(EXIT_FAILURE);
-  }
-}
-
-static raster::PointLight* fromPointLight(const PointLight* light) {
-  Color color;
-  Vector direction;
-	Point position;
-  light->getLightInfo(color, direction, position);
-  return new raster::PointLight(
-    fromPoint(position),
-    fromColor(color)
-  );
-}
-
-static raster::Scene* fromScene(const Scene* scene) {
-  auto width = scene->getImage()->getXresolution();
-  auto height = scene->getImage()->getYresolution();
-
-  auto fromLights = scene->getLights();
-  std::vector<raster::PointLight*> toPointLights;
-  for (Light* light : scene->getLights()) {
-    if (light->type() == LightType::TPoint) {
-      toPointLights.push_back(fromPointLight(static_cast<const PointLight*>(light)));
-    } else {
-      fprintf(stderr, "Unrecognized light type %s\n", light->name());
-      exit(EXIT_FAILURE);
-    }
-  }
-  auto rasterSceneBuilder = raster::SceneBuilder()
-    .width(width)
-    .height(height)
-    .camera(fromCamera(scene->getCamera()))
-    .pointLights(toPointLights);
-  return rasterSceneBuilder.build();
-}
+  static raster::Scene* fromScene(const Scene* scene);
+};
 
 #endif

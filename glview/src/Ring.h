@@ -18,6 +18,8 @@ class Ring : public Primitive {
         radiusOuter(_radiusOuter) {}
   virtual ~Ring(void);
 
+	ObjectType type() const { return ObjectType::TRing; }
+
   void preprocess(const RenderContext& context);
   void intersect(HitRecord& hit, const RenderContext& context,
                  const Ray& ray) const;

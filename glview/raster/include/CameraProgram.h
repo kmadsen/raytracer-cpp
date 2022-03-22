@@ -5,6 +5,8 @@
 
 #include <GL/glew.h>
 
+class TriangleBuffer;
+
 class CameraProgram {
  public:
   explicit CameraProgram(raster::Scene* _scene);
@@ -13,10 +15,8 @@ class CameraProgram {
  private:
   raster::Scene* scene;
 
+  TriangleBuffer* triangleBuffer;
   GLuint program;
-  GLuint vaoHandle;
-  GLuint vboHandle;
-  GLuint eboHandle;
   GLuint uboViewProjectionHandle;
   GLuint vertShader;
   GLuint fragShader;

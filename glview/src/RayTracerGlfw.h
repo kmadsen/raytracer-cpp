@@ -5,7 +5,7 @@ class RayTracerGlfw
 {
 public:
 	RayTracerGlfw() {}
-	virtual ~RayTracerGlfw(void) {}
+	virtual ~RayTracerGlfw() {}
 	
 	void start(int argc, char** argv);
 };
