@@ -8,11 +8,29 @@ class HitRecord;
 
 #include "GL/glut.h"
 
+enum MaterialType {
+	TPhong,
+	TLambertian,
+	TDielectric,
+	TMetal,
+	TGlossyMetal
+};
+static const char* MaterialName[5] {
+	"TPhong",
+	"TLambertian",
+	"TDielectric",
+	"TMetal"
+	"TGlossyMetal"
+};
+
 class Material
 {
 public:
 	Material(void);
 	virtual ~Material(void);
+
+	const char* name() const { return MaterialName[type()]; }
+	virtual MaterialType type() const = 0;
 
 	virtual void preprocess(const RenderContext& context) = 0;
 	virtual void shade(Color& result, const RenderContext& context, const Ray& ray,

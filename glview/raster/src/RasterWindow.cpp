@@ -5,9 +5,9 @@
 
 #include <iostream>
 
+#include "CameraProgram.h"
 #include "FpsConsoleLog.h"
 #include "FrameBufferTexture.h"
-#include "CameraProgram.h"
 #include "ScreenProgram.h"
 
 using std::cout;
@@ -36,7 +36,8 @@ void RasterWindow::start(raster::Scene* scene) {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   auto title = "Hello OpenGL";
-  GLFWwindow* window = glfwCreateWindow(scene->width(), scene->height(), title, NULL, NULL);
+  GLFWwindow* window =
+      glfwCreateWindow(scene->width, scene->height, title, NULL, NULL);
   if (!window) {
     fprintf(stderr, "ERROR: could not open window with GLFW3\n");
     glfwTerminate();
@@ -60,7 +61,7 @@ void RasterWindow::start(raster::Scene* scene) {
 
   // Create a scope for the programs, they will destructor when the loop exits.
   {
-    frameBufferTexture = new FrameBufferTexture(scene->width(), scene->height());
+    frameBufferTexture = new FrameBufferTexture(scene->width, scene->height);
     auto cameraProgram = CameraProgram(scene);
     // auto screenProgram = ScreenProgram();
 

@@ -13,6 +13,8 @@ public:
 	Group(void);
 	virtual ~Group(void);
 
+	ObjectType type() const { return ObjectType::TGroup; }
+
 	void addObject(Object* object);
 
 	void preprocess(const RenderContext& context);
@@ -38,7 +40,7 @@ public:
 		return (int)objects.size();
 	}
 
-	std::vector<Object*> getObjects() { return objects; }
+	std::vector<Object*> getObjects() const { return objects; }
 protected:
 	std::vector<Object*> objects;
 };

@@ -19,6 +19,8 @@ public:
 
 	virtual ~Sphere(void);
 
+	ObjectType type() const { return ObjectType::TSphere; }
+
 	void preprocess(const RenderContext& context);
 	void intersect(HitRecord& hit, const RenderContext& context, const Ray& ray) const;
 	void normal(Vector& normal, const RenderContext&, const Point& hitpos,

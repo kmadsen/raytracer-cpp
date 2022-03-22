@@ -13,6 +13,8 @@ class Plane : public Primitive {
       : Primitive(_material), norm(_norm), point(_point) {}
   virtual ~Plane(void) {}
 
+	ObjectType type() const { return ObjectType::TPlane; }
+
   void preprocess(const RenderContext& context);
   void intersect(HitRecord& hit, const RenderContext& context,
                  const Ray& ray) const;

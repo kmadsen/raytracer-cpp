@@ -13,6 +13,8 @@ class Box : public Primitive {
 
   virtual ~Box(void);
 
+	ObjectType type() const { return ObjectType::TBox; }
+
   void preprocess(const RenderContext& context);
   void intersect(HitRecord& hit, const RenderContext& context,
                  const Ray& ray) const;

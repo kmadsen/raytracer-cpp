@@ -10,8 +10,9 @@ public:
 	GlossymetalMaterial(const double& _color, const int& _exponent, const double& _angle)
 		: color(_color), exponent(_exponent), angle(_angle) 
 	{ }
-
 	virtual ~GlossymetalMaterial(void);
+
+	MaterialType type() const { return MaterialType::TGlossyMetal; }
 
 	void preprocess(const RenderContext& context);
 	void shade(Color& result, const RenderContext& context, const Ray& ray,
