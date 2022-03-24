@@ -24,6 +24,13 @@ public:
 		const HitRecord& hit, const Color& atten, int depth) const;
 	void hybridShade(Color& result, const Color& colorIn, const RenderContext& context, 
 		const Ray& ray, const HitRecord& hit) const;
+
+	Color getColor() const { return color; }
+	double getKd() const { return Kd; }
+	double getKa() const { return Ka; }
+	Color getHighlight() const { return highlight; }
+	int getExponent() const { return exponent; }
+
 private:
 	void shadeLight(Color& result, Light* light, const Object* world, 
 		const Ray& viewRay, const RenderContext& context, const Vector& surfaceNormal) const;

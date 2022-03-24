@@ -18,7 +18,6 @@ CameraProgram::CameraProgram(raster::Scene* _scene) {
 
   triangleBuffer = new TriangleBuffer(scene->triangles);
   triangleBuffer->bind();
-  triangleBuffer->printDebug();
 
   glGenBuffers(1, &uboViewProjectionHandle);
 
@@ -32,9 +31,11 @@ CameraProgram::CameraProgram(raster::Scene* _scene) {
                     2 * sizeof(glm::mat4));
 
   // Bind the projection matrix to a uniform buffer
+  float fieldOfView = scene->camera->fieldOfView;
   float aspectRatio = scene->aspectRatio();
   glm::mat4 projection =
-      glm::perspective(glm::radians(26.0f), aspectRatio, 0.1f, 100.0f);
+      glm::perspective(glm::radians(fieldOfView), aspectRatio, 0.1f, 100.0f);
+
   glBindBuffer(GL_UNIFORM_BUFFER, uboViewProjectionHandle);
   glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4),
                   glm::value_ptr(projection));
@@ -130,8 +131,9 @@ CameraProgram::CameraProgram(raster::Scene* _scene) {
       for (int i = 0; i < numPointLights; i++) {
         PointLight pointLight = pointLights[i];
         vec3 lightDir = normalize(pointLight.position - vPosition);
-        float diff = dot(normal, lightDir);
-        vec3 diffuse = pointLight.color * (diff * vec3(1.0));
+        float cosphi = dot(normal, lightDir);
+
+        vec3 diffuse = pointLight.color * (cosphi * vec3(1.0));
         allLightsColor += diffuse * vDiffuse;
       }
 
