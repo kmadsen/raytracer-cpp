@@ -64,10 +64,9 @@ ScreenProgram::ScreenProgram() {
   )";
 
   /*
-   * The fragment shader colours each fragment (pixel-sized area of the
-   * triangle)
+   * Use this program to blur the scene
    */
-  const char* frag_source = R"(
+  const char* frag_source_blur = R"(
     #version 460
 
     layout (location=0) out vec4 fragmentColor;
@@ -94,10 +93,28 @@ ScreenProgram::ScreenProgram() {
     }
   )";
 
+  /*
+   * Use this program for verifying basic rendering works.
+   */
+  const char* frag_source_noop = R"(
+    #version 460
+
+    layout (location=0) out vec4 fragmentColor;
+
+    layout (location=0) in vec3 vColor;
+    layout (location=1) in vec2 vTexture;
+
+    uniform sampler2D uTexture;
+
+    void main () {
+      fragmentColor = texture(uTexture, vTexture);
+    }
+  )";
+
   /* Link the shaders to a program */
   program = glCreateProgram();
   vertShader = Shader::compileSource(vert_source, GL_VERTEX_SHADER);
-  fragShader = Shader::compileSource(frag_source, GL_FRAGMENT_SHADER);
+  fragShader = Shader::compileSource(frag_source_noop, GL_FRAGMENT_SHADER);
   glAttachShader(program, vertShader);
   glAttachShader(program, fragShader);
   glLinkProgram(program);

@@ -15,7 +15,7 @@ class RasterWindow {
   void resize(int width, int height);
 
  private:
-  FrameBufferTexture* frameBufferTexture;
+  FrameBufferTexture* frameBufferTexture = nullptr;
 };
 
 #endif  // RASTERWINDOW_H_
