@@ -25,9 +25,9 @@ static glm::vec3 triangleNormal(const raster::Triangle& triangle) {
 }
 
 TriangleBuffer::TriangleBuffer(const std::vector<raster::Triangle*> triangles) {
-  triangleRowCount = triangles.size() * 3;
-  rows = std::vector<TriangleBufferRow>(triangleRowCount);
-  indices = std::vector<int>(triangleRowCount);
+  triangleCount = triangles.size() * 3;
+  rows = std::vector<TriangleBufferRow>(triangleCount);
+  indices = std::vector<int>(triangleCount);
   int rowIndex = 0;
   int indicesIndex = 0;
   for (auto triangle : triangles) {
@@ -54,10 +54,10 @@ void TriangleBuffer::bind() {
   glGenBuffers(1, &vboHandle);
   glGenBuffers(1, &eboHandle);
 
-  size_t vaoSize = sizeof(TriangleBufferRow) * triangleRowCount;
+  size_t vaoSize = sizeof(TriangleBufferRow) * triangleCount;
   const float* vaoValues = &(rows[0].vertex.x);
 
-  size_t eboSize = sizeof(int) * triangleRowCount;
+  size_t eboSize = sizeof(int) * triangleCount;
   const int* eboValues = &(indices[0]);
 
   printf("size of values %x+%d %x+%d\n", vaoValues, vaoSize, eboValues,

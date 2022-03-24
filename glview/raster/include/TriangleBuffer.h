@@ -18,7 +18,7 @@ typedef struct {
 
 class TriangleBuffer {
  private:
-  int triangleRowCount;
+  int triangleCount;
   GLuint vboHandle;
   GLuint vaoHandle;
   GLuint eboHandle;
