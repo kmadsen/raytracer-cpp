@@ -48,12 +48,14 @@ raster::PointLight* RasterSceneMapper::fromPointLight(const PointLight* light) {
 }
 
 raster::Material* RasterSceneMapper::fromPhongMaterial(const PhongMaterial* phong) {
-  std::cout << "Handle fromPhongMaterial" << std::endl;
-  return new raster::Material();
+  return new raster::Material(
+    fromColor(phong->getColor()),
+    phong->getKa(),
+    phong->getKd()
+  );
 }
 
 raster::Material* RasterSceneMapper::fromLambertianMaterial(const LambertianMaterial* lambertian) {
-  std::cout << "Handle fromLambertianMaterial" << std::endl;
   return new raster::Material(
     fromColor(lambertian->getColor()),
     lambertian->getKa(),
@@ -101,8 +103,6 @@ raster::Material* RasterSceneMapper::fromMaterial(const Material* material) {
 }
 
 raster::Triangle* RasterSceneMapper::fromTriangle(const Triangle* triangle) {
-  std::cout << "Handle fromTriangle" << std::endl;
-
   return new raster::Triangle(
     fromMaterial(triangle->getMaterial().get()),
     fromPoint(triangle->getP0()),

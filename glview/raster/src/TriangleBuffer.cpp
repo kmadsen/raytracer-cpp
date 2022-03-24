@@ -60,8 +60,7 @@ void TriangleBuffer::bind() {
   size_t eboSize = sizeof(int) * triangleCount;
   const int* eboValues = &(indices[0]);
 
-  printf("size of values %x+%d %x+%d\n", vaoValues, vaoSize, eboValues,
-         eboSize);
+  printf("size of values %d %d\n", vaoSize / 4, eboSize / 4);
 
   glBindVertexArray(vaoHandle);
 
@@ -71,23 +70,24 @@ void TriangleBuffer::bind() {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, eboSize, eboValues, GL_STATIC_DRAW);
 
   // Position attribute
+  int vaoStride = 11 * sizeof(float);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), 0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vaoStride, 0);
   // Normal attribute
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat),
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vaoStride,
                         reinterpret_cast<void*>(3 * sizeof(GLfloat)));
   // Color attribute
   glEnableVertexAttribArray(2);
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat),
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, vaoStride,
                         reinterpret_cast<void*>(6 * sizeof(GLfloat)));
   // Ambient attribute
   glEnableVertexAttribArray(3);
-  glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat),
+  glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, vaoStride,
                         reinterpret_cast<void*>(9 * sizeof(GLfloat)));
   // Diffuse attribute
   glEnableVertexAttribArray(4);
-  glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat),
+  glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, vaoStride,
                         reinterpret_cast<void*>(10 * sizeof(GLfloat)));
 
   glBindVertexArray(0);
@@ -123,5 +123,5 @@ void TriangleBuffer::printDebug() {
 void TriangleBuffer::draw() {
   glBindVertexArray(vaoHandle);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboHandle);
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, triangleCount, GL_UNSIGNED_INT, 0);
 }
