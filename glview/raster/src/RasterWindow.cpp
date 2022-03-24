@@ -63,23 +63,25 @@ void RasterWindow::start(raster::Scene* scene) {
   {
     frameBufferTexture = new FrameBufferTexture(scene->width, scene->height);
     auto cameraProgram = CameraProgram(scene);
-    // auto screenProgram = ScreenProgram();
+    auto screenProgram = ScreenProgram();
 
     // Start the render loop
     auto fpsLog = FpsConsoleLog();
     while (!glfwWindowShouldClose(window)) {
-      // frameBufferTexture->bind();
-      glEnable(GL_DEPTH_TEST);
+      // First pass
+      frameBufferTexture->bind();
+      glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      glEnable(GL_DEPTH_TEST);
       cameraProgram.draw();
 
+      // Second pass
       glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-      // glDisable(GL_DEPTH_TEST);
-
-      // glActiveTexture(GL_TEXTURE0);
-      // glBindTexture(GL_TEXTURE_2D, frameBufferTexture->texture);
-      // screenProgram.draw();
+      glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
+      glDisable(GL_DEPTH_TEST);
+      glBindTexture(GL_TEXTURE_2D, frameBufferTexture->textureColorBuffer);
+      screenProgram.draw();
 
       // Swap buffers and poll input events
       glfwSwapBuffers(window);
@@ -95,5 +97,7 @@ void RasterWindow::start(raster::Scene* scene) {
 
 void RasterWindow::resize(int width, int height) {
   glViewport(0, 0, width, height);
-  frameBufferTexture->resize(width, height);
+  if (frameBufferTexture != nullptr) {
+    frameBufferTexture->resize(width, height);
+  }
 }

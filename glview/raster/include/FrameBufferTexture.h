@@ -11,7 +11,8 @@ class FrameBufferTexture {
   void resize(int width, int height);
 
   GLuint frameBuffer;
-  GLuint texture;
+  GLuint textureColorBuffer;
+  GLuint renderBuffer;
 };
 
 #endif  // FRAMEBUFFERTEXTURE_H_
